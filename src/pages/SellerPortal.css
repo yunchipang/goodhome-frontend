@@ -1,9 +1,14 @@
+.seller-portal-container {
+    max-width: 100%;
+    /* 调整这个值以确保足够的空间，并列显示表单和列表 */
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .seller-portal-header {
     display: flex;
     justify-content: space-between;
-    /* 确保内容均匀分布在容器的两端和中间 */
     align-items: center;
-    /* 垂直居中对齐 */
     padding: 10px;
     background-color: #f3f3f3;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -11,68 +16,111 @@
 
 .seller-portal-logo {
     flex: 1;
-    /* 使 logo 部分占据可用空间，有助于水平居中显示 */
     text-align: center;
-    /* 确保内部元素（如图片）居中显示 */
 }
 
 .seller-portal-logo img {
-    max-width: 100px;
-    /* 根据需要调整宽度 */
-    max-height: 40px;
-    /* 根据需要调整高度 */
+    max-width: 300px;
+    max-height: 100px;
 }
 
 .user-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #ddd;
-    cursor: pointer;
+    overflow: hidden;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* 确保图片不会有额外的空间 */
 }
 
 
-
-.seller-portal-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* 对齐至顶部，避免高度不一致时的对齐问题 */
+    /* margin: 20px 0; */
 }
+
+
 
 .portal-title {
     font-size: 24px;
     margin-bottom: 20px;
+    text-align: center;
+    /* 中心对齐标题 */
 }
 
 .property-form {
-    margin-bottom: 20px;
+    flex-basis: 40%;
+    margin-right: 20px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+/* 
+.property-form,
+.property-list-container {
+    flex-grow: 1;
+    padding: 20px;
+    margin: 10px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} */
 
-.property-input {
+
+.property-form input[type="text"],
+.property-form input[type="number"],
+.property-form input[type="datetime-local"],
+.property-form textarea {
     width: 100%;
+    padding: 10px;
     margin-bottom: 10px;
-    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
+    /* 确保宽度包含内边距和边框 */
 }
 
-.submit-button {
+.property-form textarea {
+    height: 120px;
+    /* 增加文本域的高度以容纳更多文本 */
+}
+
+.property-form button {
+    width: 100%;
     background-color: #007bff;
-    color: #fff;
+    color: white;
     border: none;
-    padding: 8px 16px;
+    padding: 10px;
     border-radius: 4px;
     cursor: pointer;
+    margin-top: 10px;
+}
+
+.property-form button:hover {
+    background-color: #0056b3;
 }
 
 .property-list-container {
-    background-color: #f9f9f9;
+    flex-basis: 60%;
     padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .property-list-title {
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    /* 增加标题下的间距 */
 }
 
 .property-list {
@@ -84,7 +132,15 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 15px;
+    /* 增加内部间距 */
+    background-color: white;
+    /* 设置背景颜色以突出显示每个属性项 */
+}
+
+.property-item:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* 悬停时添加阴影效果 */
 }
 
 .button-container {
@@ -94,7 +150,7 @@
 
 .action-button {
     background-color: #28a745;
-    color: #fff;
+    color: white;
     border: none;
     padding: 6px 12px;
     border-radius: 4px;
@@ -104,4 +160,49 @@
 
 .action-button:hover {
     background-color: #218838;
+}
+
+/* 响应式设计的媒体查询 */
+@media screen and (max-width: 768px) {
+
+    .seller-portal-container,
+    .property-form,
+    .property-list-container {
+        padding: 10px;
+    }
+
+    .portal-title,
+    .property-list-title {
+        font-size: 18px;
+    }
+
+    .property-input,
+    .submit-button,
+    .action-button {
+        padding: 6px 12px;
+    }
+
+    .property-item {
+        padding: 8px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .seller-portal-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .seller-portal-logo {
+        order: 2;
+        margin: 10px 0;
+    }
+
+    .user-avatar {
+        order: 3;
+    }
+
+    .portal-title {
+        font-size: 20px;
+    }
 }
