@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import SellerPortal from './pages/SellerPortal';
+import SellerPortal from "./pages/SellerPortal";
+import BuyerPortal from "./pages/BuyerPortal";
+import PropertyList from "./pages/PropertyList";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -26,8 +28,12 @@ function App() {
 
   return (
     <Router>
-      <Routes> {/* 使用Routes替代Switch */}
+      <Routes>
+        {" "}
+        {/* 使用Routes替代Switch */}
         <Route path="/seller-portal" element={<SellerPortal />} />
+        <Route path="/buyer-portal" element={<BuyerPortal />} />
+        <Route path="/properties" element={<PropertyList />} />
         {/* 使用element属性替代component，传入组件实例 */}
         {/* 其他路由配置 */}
       </Routes>
