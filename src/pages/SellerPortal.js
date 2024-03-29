@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './SellerPortal.css'; // 导入样式文件
 import { useNavigate } from 'react-router-dom'; // 导入 useNavigate hook
+import logoImage from '../img/goodhomelogo.jpg';
 
 function SellerPortal() {
   const [csrfToken, setCsrfToken] = useState('');
@@ -106,8 +107,14 @@ function SellerPortal() {
 
   return (
     <div className="seller-portal-container">
+      <div className="seller-portal-header">
+        <button onClick={handleGoBack}>Go Back</button>
+        <div className="seller-portal-logo">
+          <img src={logoImage} alt="Logo" /> {/* 使用 logo 图片 */}
+        </div>
+        <div className="user-avatar"></div>
+      </div>
       <h1 className="portal-title">Seller Portal</h1>
-      <button onClick={handleGoBack}>Go Back</button> {/* 返回homepage的按钮 */}
       <form className="property-form" onSubmit={handlePropertySubmit}>
         <input type="text" name="title" placeholder="Title" value={newProperty.title} onChange={handleInputChange} />
         <textarea name="property_descr" placeholder="Description" value={newProperty.property_descr} onChange={handleInputChange} />
