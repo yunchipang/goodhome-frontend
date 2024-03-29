@@ -1,3 +1,38 @@
+.seller-portal-header {
+    display: flex;
+    justify-content: space-between;
+    /* 确保内容均匀分布在容器的两端和中间 */
+    align-items: center;
+    /* 垂直居中对齐 */
+    padding: 10px;
+    background-color: #f3f3f3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.seller-portal-logo {
+    flex: 1;
+    /* 使 logo 部分占据可用空间，有助于水平居中显示 */
+    text-align: center;
+    /* 确保内部元素（如图片）居中显示 */
+}
+
+.seller-portal-logo img {
+    max-width: 100px;
+    /* 根据需要调整宽度 */
+    max-height: 40px;
+    /* 根据需要调整高度 */
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+
+
 .seller-portal-container {
     max-width: 100%;
     /* 调整这个值以确保足够的空间，并列显示表单和列表 */
