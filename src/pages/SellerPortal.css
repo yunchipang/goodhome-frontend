@@ -206,6 +206,13 @@
 >>>>>>> e9d6374 (adjust layout of the web)
 }
 
+.property-image {
+    max-width: 100%;
+    /* 图片最大宽度为容器宽度 */
+    height: auto;
+    /* 高度自动调整以保持图片比例 */
+}
+
 .button-container {
     display: flex;
     justify-content: flex-end;
