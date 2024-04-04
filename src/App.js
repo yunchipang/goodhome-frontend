@@ -4,8 +4,11 @@ import "./App.css";
 import SellerPortal from "./pages/SellerPortal";
 import BuyerPortal from "./pages/BuyerPortal";
 import PropertyList from "./pages/PropertyList";
+import { ToastContainer } from "react-toastify"; // 导入ToastContainer
+import "react-toastify/dist/ReactToastify.css"; // 导入样式文件
 
 function App() {
+  // eslint-disable-next-line no-unused-vars
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -19,6 +22,7 @@ function App() {
         }
         return response.text();
       })
+      // eslint-disable-next-line no-unused-vars
       .then((data) => setMessage(data))
       .catch((error) => {
         console.error("There was an error!", error);
@@ -37,6 +41,7 @@ function App() {
         {/* 使用element属性替代component，传入组件实例 */}
         {/* 其他路由配置 */}
       </Routes>
+      <ToastContainer /> {/* 在应用的顶层添加ToastContainer */}
     </Router>
   );
 }

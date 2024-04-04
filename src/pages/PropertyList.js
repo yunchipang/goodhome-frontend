@@ -2,12 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./PropertyList.css"; // Ensure this path matches the location of your CSS file
+import Modal from "./Modal";
+import { toast } from "react-toastify";
 
 const PropertyList = () => {
   const [properties, setProperties] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const searchLocation = location.state?.location; // Accessing the location state passed from BuyerPortal
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [bidAmount, setBidAmount] = useState(""); // 添加了对 bidAmount 的定义和初始化
 
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
@@ -25,39 +30,85 @@ const PropertyList = () => {
       .catch((error) => console.error("Error fetching property data:", error));
   }, [searchLocation]);
 
+  // 处理点击物业的事件
+  const handlePropertyClick = (property) => {
+    setSelectedProperty(property);
+    setIsModalOpen(true);
+  };
+
+  const handleBidSubmit = (e) => {
+    e.preventDefault();
+
+    // Assuming this data structure matches what your Django view expects
+    const bidData = {
+      bidder: 1, // Example bidder ID
+      auction: selectedProperty.id, // Make sure this matches an existing auction ID
+      amount: bidAmount,
+    };
+
+    fetch("http://localhost:8000/api/bid/upload/", {
+      // Update the URL if needed
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Remove Authorization header if you're not using tokens or any form of authentication
+      },
+      body: JSON.stringify(bidData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Bid successful:", data);
+        toast.success("Bid submitted successfully!");
+        setIsModalOpen(false);
+        setBidAmount("");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Bid submission failed.");
+      });
+  };
+
   return (
     <div className="property-list-container">
       <button onClick={handleBack}>Back</button>{" "}
       {/* Add this line for the Back button */}
-      <h2 className="property-list-title">Available Properties</h2>
-      {properties.length > 0 ? (
-        properties.map((property) => (
-          <div key={property.id} className="property-card">
+      <h2>Available Properties</h2>
+      <div className="property-list">
+        {properties.map((property) => (
+          <div
+            key={property.id}
+            className="property-item"
+            onClick={() => handlePropertyClick(property)}
+          >
+            <img src={property.image_url} alt={property.title} />
             <h3>{property.title}</h3>
             <p>{property.property_descr}</p>
-            <div className="property-info">
-              <div>
-                <label>Starting Bid:</label> ${property.start_bid_amount}
-              </div>
-              <div>
-                <label>Address:</label> {property.address}
-              </div>
-              <div>
-                <label>Square Feet:</label> {property.squarefeet ?? "N/A"}
-              </div>
-              <div>
-                <label>Room Type:</label> {property.room_type ?? "N/A"}
-              </div>
-              <div>
-                <label>zipcode:</label> {property.zipcode}
-              </div>
-              {/* Add more property details as needed */}
-            </div>
+            <p>Start Bid: ${property.start_bid_amount}</p>
+            <p>Address: {property.address}</p>
+            <p>Square Feet: {property.squarefeet}</p>
+            <p>Room Type: {property.room_type}</p>
+            <p>Zip Code: {property.zipcode}</p>
           </div>
-        ))
-      ) : (
-        <p>No properties found.</p>
-      )}
+        ))}
+      </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <h3>Bid on: {selectedProperty?.title}</h3>
+        <form onSubmit={handleBidSubmit}>
+          <input
+            type="number"
+            value={bidAmount}
+            onChange={(e) => setBidAmount(e.target.value)}
+            placeholder={`Higher than $${selectedProperty?.start_bid_amount}`}
+            min={selectedProperty?.start_bid_amount}
+          />
+          <button type="submit">Submit Bid</button>
+        </form>
+      </Modal>
     </div>
   );
 };
