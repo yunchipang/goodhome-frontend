@@ -57,7 +57,10 @@ const PropertyList = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          // 当响应状态码不是200时，尝试解析响应体以获取错误信息
+          return response.json().then((err) => {
+            throw new Error(err.error || "Network response was not ok");
+          });
         }
         return response.json();
       })
@@ -69,7 +72,7 @@ const PropertyList = () => {
       })
       .catch((error) => {
         console.error("Error:", error);
-        toast.error("Bid submission failed.");
+        toast.error(error.message);
       });
   };
 
