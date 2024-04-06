@@ -56,6 +56,7 @@ function App() {
         <Route path="/property/:propertyId" element={<PropertyDetails />} />
         {/* 使用element属性替代component，传入组件实例 */}
         {/* 其他路由配置 */}
+        <Route path="/chat" element={<Chat />} />
       </Routes>
       <ToastContainer /> {/* 在应用的顶层添加ToastContainer */}
     </Router>
