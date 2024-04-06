@@ -64,3 +64,19 @@ body {
 .current-location-btn:hover {
   background-color: #286090;
 }
+
+/* Add this new class for the buy history button */
+.buy-history-btn {
+  margin-top: 20px; /* Add some space above the button */
+  padding: 10px 20px;
+  background-color: #337ab7; /* Choose a color that suits your design */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.buy-history-btn:hover {
+  background-color: #286090; /* A slightly darker color for the hover state */
+}

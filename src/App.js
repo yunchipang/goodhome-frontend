@@ -4,6 +4,7 @@ import "./App.css";
 import SellerPortal from "./pages/SellerPortal";
 import BuyerPortal from "./pages/BuyerPortal";
 import PropertyList from "./pages/PropertyList";
+import BuyHistory from "./pages/BuyHistory";
 import { ToastContainer } from "react-toastify"; // 导入ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // 导入样式文件
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/seller-portal" element={<SellerPortal />} />
         <Route path="/buyer-portal" element={<BuyerPortal />} />
         <Route path="/properties" element={<PropertyList />} />
+        <Route path="/buyhistory" element={<BuyHistory />} />
         {/* 使用element属性替代component，传入组件实例 */}
         {/* 其他路由配置 */}
       </Routes>
