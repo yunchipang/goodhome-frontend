@@ -1,0 +1,76 @@
+.buy-history-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.buy-history-title {
+  color: #333;
+  margin: 20px 0;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+}
+
+.history-item {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px 0;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-item-details {
+  flex: 1;
+}
+
+.property-address {
+  font-weight: bold;
+}
+
+.bid-amount {
+  color: #4caf50;
+  font-size: 1.2em;
+}
+
+.pay-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pay-button:hover {
+  background-color: #0056b3;
+}
+
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: white; /* Change to white */
+  color: #333; /* Change text color */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 3px; /* Adjust border radius */
+  padding: 8px 15px; /* Adjust padding */
+  font-size: 14px; /* Adjust font size */
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #0056b3; /* 更深的背景色 */
+}

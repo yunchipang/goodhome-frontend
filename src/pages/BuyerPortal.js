@@ -28,6 +28,11 @@ const BuyerPortal = () => {
     });
   };
 
+  // Add this function to handle navigation to the buyhistory page
+  const handleNavigateToBuyHistory = () => {
+    navigate("/buyhistory"); // Adjust the path as necessary
+  };
+
   return (
     <div className="buyer-portal">
       <h1>Buyer Portal</h1>
@@ -44,6 +49,9 @@ const BuyerPortal = () => {
       </form>
       <button onClick={handleCurrentLocation} className="current-location-btn">
         Use Current Location
+      </button>
+      <button onClick={handleNavigateToBuyHistory} className="buy-history-btn">
+        View Buy History
       </button>
     </div>
   );
