@@ -16,7 +16,7 @@ const SignupLogin = () => {
         e.preventDefault();
         if (isSignIn) {
             // Handle sign in
-            fetch('/login/', {
+            fetch('http://localhost:8000/login/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -58,9 +58,9 @@ const SignupLogin = () => {
                     if (response.ok) {
                         alert('Registration successful');
                         window.location.href = '/signuplogin'; // Redirect to the homepage
-                    } else {
-                        response.json().then(data => {
-                            alert('Registration failed: ' + data.error);
+                    } else if (response.status === 400) {
+                            response.json().then(data => {
+                                alert('Registration failed: ' + data.error);
                         });
                     }
                 })
