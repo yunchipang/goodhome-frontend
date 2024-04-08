@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import SignupLogin from "./pages/SignupLogin";
 // import Profile from "./pages/Profile";
 import BuyHistory from "./pages/BuyHistory";
+import SellerRating from "./pages/SellerRating";
 import { ToastContainer } from "react-toastify"; // 导入ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // 导入样式文件
 import Logout from "./pages/HomePage";
@@ -50,6 +51,7 @@ function App() {
         {/* <Route path="/profile" element={<Profile />}/> */}
         <Route path="/buyhistory" element={<BuyHistory />} />
         <Route path="/payment/:amount" element={<Payment />} />
+        <Route path="/sellerrating/:sellerId" element={<SellerRating />} />
         {/* 使用element属性替代component，传入组件实例 */}
         {/* 其他路由配置 */}
       </Routes>

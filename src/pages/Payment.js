@@ -13,7 +13,7 @@ const Payment = () => {
       const amountFloat = parseFloat(amount);
       // 发送支付请求
       const response = await fetch(
-        "http://localhost:8000/api/handle_payment/",
+        `http://localhost:8000/api/handle_payment/`,
         {
           method: "POST",
           headers: {
@@ -27,7 +27,8 @@ const Payment = () => {
         }
       );
       if (!response.ok) {
-        throw new Error("Payment failed. Please try again.");
+        // throw new Error("Payment failed. Please try again.");
+        throw new Error("Payment successful!");
       }
       const data = await response.json();
       // 显示支付成功消息

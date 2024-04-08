@@ -21,6 +21,11 @@ const BuyHistory = () => {
     // Or navigate('/'); to always go back to the BuyerPortal home page regardless of the previous page
   };
 
+  const handleRateSeller = (winner) => {
+    console.log("Seller ID:", winner.seller_id);
+    navigate(`/sellerrating/${winner.seller_id}`); // Navigate to SellerRating page with seller ID
+  };
+
   const handlePay = (winner) => {
     // 此处实现支付逻辑
     console.log(
@@ -43,11 +48,20 @@ const BuyHistory = () => {
               <p className="property-address">
                 Property: {winner.property_address}
               </p>
+              <p className="seller-id">Seller ID: {winner.seller_id}</p>
               <p className="bid-amount">Winning Bid: ${winner.bid_amount}</p>
             </div>
-            <button className="pay-button" onClick={() => handlePay(winner)}>
-              Pay Now
-            </button>
+            <div>
+              <button className="pay-button" onClick={() => handlePay(winner)}>
+                Pay Now
+              </button>
+              <button
+                className="rate-button"
+                onClick={() => handleRateSeller(winner)}
+              >
+                Rate Seller
+              </button>
+            </div>
           </li>
         ))}
       </ul>
