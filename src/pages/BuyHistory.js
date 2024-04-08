@@ -27,6 +27,7 @@ const BuyHistory = () => {
       `Paying for bid amount: ${winner.bid_amount} on property: ${winner.property_address}`
     );
     // 可能是跳转到支付页面或打开支付模态框
+    navigate(`/payment/${winner.bid_amount}`); // Navigate to payment page with winner ID
   };
 
   return (
@@ -44,10 +45,7 @@ const BuyHistory = () => {
               </p>
               <p className="bid-amount">Winning Bid: ${winner.bid_amount}</p>
             </div>
-            <button
-              className="pay-button"
-              onClick={() => handlePayment(winner.id)}
-            >
+            <button className="pay-button" onClick={() => handlePay(winner)}>
               Pay Now
             </button>
           </li>
@@ -57,10 +55,10 @@ const BuyHistory = () => {
   );
 };
 
-// Assuming you have a function to handle payment
-function handlePayment(winnerId) {
-  console.log(`Paying for winner ID: ${winnerId}`);
-  // Payment logic here
-}
+// // Assuming you have a function to handle payment
+// function handlePayment(winnerId) {
+//   console.log(`Paying for winner ID: ${winnerId}`);
+//   // Payment logic here
+// }
 
 export default BuyHistory;
