@@ -33,4 +33,18 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.shipping-button {
+    background-color: #28a745;
+    /* 特定于Shipping Gift按钮的颜色 */
+}
+
+.shipping-button:hover {
+    background-color: #218838;
 }
