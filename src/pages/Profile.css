@@ -1,0 +1,37 @@
+/* Profile.css */
+
+/* Style for the container */
+.profile-container {
+    margin: 20px;
+}
+
+/* Style for the input fields */
+.profile-input {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+}
+
+/* Style for the save and cancel buttons */
+.profile-button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Style for the loading message */
+.profile-loading {
+    font-style: italic;
+}
+
+/* Style for the profile information */
+.profile-info {
+    margin-bottom: 10px;
+}
+
+/* Style for the edit button */
+.profile-edit-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
