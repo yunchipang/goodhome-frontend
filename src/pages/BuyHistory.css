@@ -64,3 +64,17 @@
 .back-button:hover {
   background-color: #0056b3; /* 更深的背景色 */
 }
+
+.rate-button {
+  background-color: #ffc107; /* Yellow color for rate button */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.rate-button:hover {
+  background-color: #ffab00; /* Darker yellow on hover */
+}
