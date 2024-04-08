@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import "./ChatRoom.css"; // Make sure you import the CSS file
 
 const ChatRoom = ({ roomName }) => {
   const [messages, setMessages] = useState([]);
@@ -6,16 +7,12 @@ const ChatRoom = ({ roomName }) => {
   const chatSocket = useRef(null);
 
   useEffect(() => {
-    // chatSocket.current = new WebSocket(
-    //   `ws://${window.location.host}/ws/chat/${roomName}/`
-    // );
     chatSocket.current = new WebSocket(
       `ws://localhost:8000/ws/chat/${roomName}/`
     );
 
     chatSocket.current.onopen = function (e) {
       console.log("WebSocket connection established");
-      // Here, you can also handle queued messages if any
     };
 
     chatSocket.current.onmessage = function (e) {
@@ -34,47 +31,47 @@ const ChatRoom = ({ roomName }) => {
 
   const sendMessage = () => {
     if (chatSocket.current.readyState === WebSocket.OPEN) {
-      // Connection is open
       chatSocket.current.send(JSON.stringify({ message: inputMessage }));
       setInputMessage("");
     } else {
       console.error("WebSocket is not open. Message not sent.");
-      // Optionally, handle this case by retrying or informing the user
     }
   };
 
   const handleKeyUp = (e) => {
-    if (e.keyCode === 13) {
-      // Enter key
+    if (e.key === "Enter") {
       sendMessage();
     }
   };
 
   return (
-    <div>
-      <textarea
-        id="chat-log"
-        cols="100"
-        rows="20"
-        readOnly
-        value={messages.join("\n")}
-      ></textarea>
-      <br />
-      <input
-        id="chat-message-input"
-        type="text"
-        size="100"
-        value={inputMessage}
-        onChange={(e) => setInputMessage(e.target.value)}
-        onKeyUp={handleKeyUp}
-      />
-      <br />
-      <input
-        id="chat-message-submit"
-        type="button"
-        value="Send"
-        onClick={sendMessage}
-      />
+    <div className="chat-container">
+      <div className="chat-log" id="chat-log">
+        {messages.map((msg, index) => (
+          <div key={index} className="message">
+            {msg}
+          </div>
+        ))}
+      </div>
+      <div className="chat-input-container">
+        <input
+          className="chat-input"
+          id="chat-message-input"
+          type="text"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyUp={handleKeyUp}
+          placeholder="Type your message here..."
+        />
+        <button
+          className="chat-submit"
+          id="chat-message-submit"
+          type="button"
+          onClick={sendMessage}
+        >
+          Send
+        </button>
+      </div>
     </div>
   );
 };
