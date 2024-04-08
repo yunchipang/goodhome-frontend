@@ -147,44 +147,48 @@ function SellerPortal() {
   return (
     <div className="seller-portal-container">
       <div className="seller-portal-header">
-        <button onClick={handleGoBack}>Go Back</button>
+        <button onClick={handleGoBack}>&larr;</button>
         <div className="seller-portal-logo">
           <img src={logoImage} alt="Logo" /> {/* 使用 logo 图片 */}
         </div>
-        <div className="user-avatar"></div>
+        <div className="user-avatar">
+          <img src={userAvatar} alt="User Avatar" />
+        </div>
       </div>
       <h1 className="portal-title">Seller Portal</h1>
-      <form className="property-form" onSubmit={handlePropertySubmit}>
-        <input type="text" name="title" placeholder="Title" value={newProperty.title} onChange={handleInputChange} />
-        <textarea name="property_descr" placeholder="Description" value={newProperty.property_descr} onChange={handleInputChange} />
-        <input type="text" name="category" placeholder="Category" value={newProperty.category} onChange={handleInputChange} />
-        <input type="text" name="start_bid_amount" placeholder="Start Bid Amount" value={newProperty.start_bid_amount} onChange={handleInputChange} />
-        <input type="number" name="seller_id" placeholder="Seller ID" value={newProperty.seller_id} onChange={handleInputChange} />
-        <input type="datetime-local" name="created_at" placeholder="Created At" value={newProperty.created_at} onChange={handleInputChange} />
-        <input type="text" name="address" placeholder="Address" value={newProperty.address} onChange={handleInputChange} />
-        <input type="number" name="zipcode" placeholder="Zipcode" value={newProperty.zipcode} onChange={handleInputChange} />
-        <input type="number" name="squarefeet" placeholder="Square Feet" value={newProperty.squarefeet} onChange={handleInputChange} />
-        <input type="text" name="room_type" placeholder="Room Type" value={newProperty.room_type} onChange={handleInputChange} />
-        <label>
-          Is Active:
-          <input type="checkbox" name="is_active" checked={newProperty.is_active} onChange={(e) => setNewProperty({ ...newProperty, is_active: e.target.checked })} />
-        </label>
-        <button type="submit">Upload Property</button>
-      </form>
-      <div className="property-list-container">
-        <h2 className="property-list-title">Uploaded Properties</h2>
-        <ul className="property-list">
-          {properties.map((property) => (
-            <li key={property.id} className="property-item">
-               <p className="property-name">{property.title}</p>
-              <p className="property-description">{property.property_descr}</p>
-              <div className="button-container">
-                <button className="action-button" onClick={() => handleViewDetails(property.id)}>View Details</button>
-                <button className="action-button" onClick={() => handleAcceptOffer(property.id)}>Accept Offer</button>
-              </div>
-            </li>
-          ))}
-        </ul>
+      <div className="content-container">
+        <form className="property-form" onSubmit={handlePropertySubmit}>
+          <input type="text" name="title" placeholder="Title" value={newProperty.title} onChange={handleInputChange} />
+          <textarea name="property_descr" placeholder="Description" value={newProperty.property_descr} onChange={handleInputChange} />
+          <input type="text" name="category" placeholder="Category" value={newProperty.category} onChange={handleInputChange} />
+          <input type="text" name="start_bid_amount" placeholder="Start Bid Amount" value={newProperty.start_bid_amount} onChange={handleInputChange} />
+          <input type="number" name="seller_id" placeholder="Seller ID" value={newProperty.seller_id} onChange={handleInputChange} />
+          <input type="datetime-local" name="created_at" placeholder="Created At" value={newProperty.created_at} onChange={handleInputChange} />
+          <input type="text" name="address" placeholder="Address" value={newProperty.address} onChange={handleInputChange} />
+          <input type="number" name="zipcode" placeholder="Zipcode" value={newProperty.zipcode} onChange={handleInputChange} />
+          <input type="number" name="squarefeet" placeholder="Square Feet" value={newProperty.squarefeet} onChange={handleInputChange} />
+          <input type="text" name="room_type" placeholder="Room Type" value={newProperty.room_type} onChange={handleInputChange} />
+          <label>
+            Is Active:
+            <input type="checkbox" name="is_active" checked={newProperty.is_active} onChange={(e) => setNewProperty({ ...newProperty, is_active: e.target.checked })} />
+          </label>
+          <button type="submit">Upload Property</button>
+        </form>
+        <div className="property-list-container">
+          <h2 className="property-list-title">Uploaded Properties</h2>
+          <ul className="property-list">
+            {properties.map((property) => (
+              <li key={property.id} className="property-item">
+                <p className="property-name">{property.title}</p>
+                <p className="property-description">{property.property_descr}</p>
+                <div className="button-container">
+                  <button className="action-button" onClick={() => handleViewDetails(property.id)}>View Details</button>
+                  <button className="action-button" onClick={() => handleAcceptOffer(property.id)}>Accept Offer</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
