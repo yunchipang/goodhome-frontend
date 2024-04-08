@@ -39,49 +39,6 @@
 }
 
 
-<<<<<<< HEAD
-
-.seller-portal-container {
-    max-width: 100%;
-    /* 调整这个值以确保足够的空间，并列显示表单和列表 */
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.seller-portal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #f3f3f3;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.seller-portal-logo {
-    flex: 1;
-    text-align: center;
-}
-
-.seller-portal-logo img {
-    max-width: 300px;
-    max-height: 100px;
-}
-
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.user-avatar img {
-    width: 100%;
-    height: auto;
-    display: block;
-    /* 确保图片不会有额外的空间 */
-}
-
-
 .content-container {
     display: flex;
     justify-content: space-between;
@@ -90,16 +47,6 @@
     /* margin: 20px 0; */
 }
 
-=======
-.content-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    /* 对齐至顶部，避免高度不一致时的对齐问题 */
-    /* margin: 20px 0; */
-}
-
->>>>>>> e9d6374 (adjust layout of the web)
 
 
 .portal-title {
@@ -194,16 +141,6 @@
 .property-item:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     /* 悬停时添加阴影效果 */
-<<<<<<< HEAD
-}
-
-.property-image {
-    max-width: 100%;
-    /* 图片最大宽度为容器宽度 */
-    height: auto;
-    /* 高度自动调整以保持图片比例 */
-=======
->>>>>>> e9d6374 (adjust layout of the web)
 }
 
 .property-image {

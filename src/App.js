@@ -6,11 +6,10 @@ import BuyerPortal from "./pages/BuyerPortal";
 import PropertyList from "./pages/PropertyList";
 import HomePage from "./pages/HomePage";
 import SignupLogin from "./pages/SignupLogin";
-import Profile from "./pages/Profile";
+// import Profile from "./pages/Profile";
 import { ToastContainer } from "react-toastify"; // 导入ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // 导入样式文件
-import  Logout  from './pages/HomePage'
-import SellerPortal from './pages/SellerPortal';
+import Logout from './pages/HomePage';
 import PropertyDetails from './pages/PropertyDetails';
 
 function App() {
