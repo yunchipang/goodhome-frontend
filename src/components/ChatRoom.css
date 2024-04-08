@@ -52,16 +52,20 @@
 }
 
 .message {
+  display: block; /* this makes each message appear on a new line */
   margin-bottom: 10px;
   padding: 8px;
-  border-radius: 4px;
+  border-radius: 8px;
   color: black;
+  word-wrap: break-word; /* ensures text wraps within the bubble */
 }
 
 .message.sent {
   background-color: greenyellow;
+  margin-left: 20%;
 }
 
 .message.received {
   background-color: white;
+  margin-right: 20%;
 }
