@@ -4,9 +4,12 @@ import './AuctionResult.css';
 
 function AuctionResult() {
   const { propertyId } = useParams();  // 确保这里的参数名与你的路由定义匹配
+  const [csrfToken, setCsrfToken] = useState('');
   const [result, setResult] = useState(null);
   const [rating, setRating] = useState(null);
   const [message, setMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);  // 控制弹窗显示
+  const [trackingNumber, setTrackingNumber] = useState('');  // UPS跟踪号
 
   useEffect(() => {
     if (propertyId) {  // 确保propertyId已定义
@@ -57,6 +60,44 @@ const handleRating = () => {
   }
 };
     
+const handleShippingGift = () => {
+    setShowModal(true);
+    // 假设的生成跟踪号逻辑
+    setTrackingNumber(`1Z${Math.random().toString().slice(2, 12)}`);
+  };
+
+  const handleCompleteShipping = () => {
+    const shippingData = {
+      seller_id: result ? result.seller_id : 0,
+      winner_id: result ? result.winner_id : 0,
+      trackingNumber
+    };
+
+    console.log('Sending shipping data:', shippingData);
+
+    fetch('http://localhost:8000/api/shipping', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken,
+      },
+      body: JSON.stringify(shippingData)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Shipping response:', data);
+      setShowModal(false); // 关闭弹窗
+    })
+    .catch(error => {
+      console.error('Error sending shipping data:', error);
+    });
+  };
+    
   return (
     <div className="container">
       {result ? (
@@ -83,10 +124,19 @@ const handleRating = () => {
               onChange={e => setMessage(e.target.value)}
             />
           </div>
-          <button className="button" onClick={handleRating}>Rate Winner</button>
-        </div>
+            <button className="button" onClick={handleRating}>Rate Winner</button>
+            <button className="button shipping-button" onClick={handleShippingGift}>Shipping Gift</button>
+          </div>
+          
       ) : (
         <p>Loading auction result...</p>
+      )}
+      
+      {showModal && (
+        <div className="modal">
+          <p>UPS Tracking Number: {trackingNumber}</p>
+          <button onClick={handleCompleteShipping}>Complete Shipping</button>
+        </div>
       )}
     </div>
   );
