@@ -46,8 +46,17 @@ const ChatRoom = ({ roomName }) => {
         isSentByCurrentUser: true,
         tempId, // temporary identifier added here
       };
+
+      // todo: replace hardcoded sender & receiver ids
+      const senderId = 29;
+      const receiverId = 28;
       chatSocket.current.send(
-        JSON.stringify({ message: inputMessage, tempId })
+        JSON.stringify({
+          message: inputMessage,
+          sender_id: senderId,
+          receiver_id: receiverId,
+          tempId,
+        })
       );
       setMessages((prevMessages) => [...prevMessages, messageObject]);
       setInputMessage("");

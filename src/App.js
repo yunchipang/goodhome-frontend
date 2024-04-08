@@ -52,6 +52,7 @@ function App() {
         <Route path="/signuplogin" element={<SignupLogin />} />
         <Route path="/logout" element={<Logout />} />
         {/* <Route path="/profile" element={<Profile />}/> */}
+<<<<<<< HEAD
         <Route path="/buyhistory" element={<BuyHistory />} />
         <Route path="/payment/:amount" element={<Payment />} />
         <Route path="/sellerrating/:sellerId" element={<SellerRating />} />
@@ -59,6 +60,8 @@ function App() {
         {/* 使用element属性替代component，传入组件实例 */}
         {/* 其他路由配置 */}
         <Route path="/chat" element={<ChatRoom />} />
+=======
+>>>>>>> fe816e5 (saves chat message to db while rendering fine)
         <Route path="/chat/:roomName" element={<ChatRoomWrapper />} />
       </Routes>
       <ToastContainer /> {/* 在应用的顶层添加ToastContainer */}
