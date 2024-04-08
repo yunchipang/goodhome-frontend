@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./ChatRoom.css"; // Make sure you import the CSS file
+import "./ChatRoom.css";
 
 const ChatRoom = ({ roomName }) => {
   const [messages, setMessages] = useState([]);
@@ -17,7 +17,13 @@ const ChatRoom = ({ roomName }) => {
 
     chatSocket.current.onmessage = function (e) {
       const data = JSON.parse(e.data);
-      setMessages((prevMessages) => [...prevMessages, data.message]);
+      // only add the message to the state if it's not the one that was sent by the current user
+      if (!data.tempId || messages.every((msg) => msg.tempId !== data.tempId)) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { message: data.message, isSentByCurrentUser: false },
+        ]);
+      }
     };
 
     chatSocket.current.onclose = function (e) {
@@ -27,11 +33,23 @@ const ChatRoom = ({ roomName }) => {
     return () => {
       chatSocket.current.close();
     };
-  }, [roomName]);
+  }, [roomName, messages]); // added messages as a dependency here
 
   const sendMessage = () => {
-    if (chatSocket.current.readyState === WebSocket.OPEN) {
-      chatSocket.current.send(JSON.stringify({ message: inputMessage }));
+    if (
+      chatSocket.current.readyState === WebSocket.OPEN &&
+      inputMessage.trim() !== ""
+    ) {
+      const tempId = new Date().getTime(); // using timestamp as a unique identifier
+      const messageObject = {
+        message: inputMessage,
+        isSentByCurrentUser: true,
+        tempId, // temporary identifier added here
+      };
+      chatSocket.current.send(
+        JSON.stringify({ message: inputMessage, tempId })
+      );
+      setMessages((prevMessages) => [...prevMessages, messageObject]);
       setInputMessage("");
     } else {
       console.error("WebSocket is not open. Message not sent.");
@@ -48,8 +66,13 @@ const ChatRoom = ({ roomName }) => {
     <div className="chat-container">
       <div className="chat-log" id="chat-log">
         {messages.map((msg, index) => (
-          <div key={index} className="message">
-            {msg}
+          <div
+            key={index}
+            className={`message ${
+              msg.isSentByCurrentUser ? "sent" : "received"
+            }`}
+          >
+            {msg.message}
           </div>
         ))}
       </div>
