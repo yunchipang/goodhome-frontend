@@ -1,15 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import './HomePage.css';
 
 const HomePage = () => {
     const [username, setUsername] = useState('');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
-        setUsername(storedUsername);
+        if(storedUsername){
+            setUsername(storedUsername);
+        } else{
+            setUsername(null);
+        }
+
     }, []); // Empty dependency array ensures useEffect runs only once
+
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
+    };
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/logout', {
+                method: 'POST',
+                credentials: 'include' // This includes cookies in the request
+            });
+            if (response.ok) {
+                // Logout successful
+                navigate('/homepage');
+                // localStorage.clear();
+                // // Redirect the user to the login page or homepage
+                // window.location.href = '/signup-login'; // Redirect to the homepage
+            } else {
+                // Logout failed
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     return (
         <header>
@@ -22,8 +54,21 @@ const HomePage = () => {
                 <ul>
                     <li><a href="#">Contact</a></li>
                     {username ? (
-                        <li>Welcome, {username}</li>
+                        <li className="dropdown" onClick={toggleDropdown}>
+                            <span className="dropdown-toggle">Welcome, {username}</span>
+                            {showDropdown && (
+                                <ul className="dropdown-menu">
+                                    <li><Link to="/profile">Profile</Link></li>
+                                    <li><Link to="/chathistory">Chat History</Link></li>
+                                    <li><Link to="/sellerportal">Seller Portal</Link></li>
+                                    <li><Link to="/buyerportal">Buyer Portal</Link></li>
+                                    {/* <li><Link to="/logout">Log Out</Link></li> */}
+                                    <li><Link to="/logout" onClick={handleLogout}>Log Out</Link></li>
+                                </ul>
+                            )}
+                        </li>
                     ) : (
+                        // Handle the case where the username is not found
                         <li><Link to="/signuplogin">Register/Sign In</Link></li>
                     )}
                 </ul>

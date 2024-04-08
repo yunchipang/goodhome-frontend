@@ -176,6 +176,67 @@ nav ul li a:hover::after {
     left: 0;
   }
 }
+
+/* Your existing CSS code goes here */
+
+/* Dropdown menu styles */
+/* Your existing CSS code goes here */
+
+/* Dropdown menu styles */
+.dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown-toggle {
+  color: white;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.dropdown-menu li {
+  margin-bottom: 5px;
+}
+
+.dropdown-menu li a {
+  color: #333;
+  text-decoration: none;
+  font-size: 12px; /* Adjust the font size as needed */
+}
+
+.dropdown-menu li a:hover {
+  color: #52BE80 ;
+}
+
+/* Adjust contact link position */
+nav ul li:nth-child(1) {
+  margin-left: auto;
+}
+
+/* Show dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Style for the Welcome, username text */
+.dropdown-toggle {
+  color: #DAF7A6 ;
+  font-size: 16px; /* Adjust the font size as needed */
+}
+
+/* Your existing media queries go here */
+
+
+
+
 /* For screens smaller than 480px */
 @media (max-width: 636px) {
   .head h1 {

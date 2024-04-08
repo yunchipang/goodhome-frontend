@@ -45,7 +45,7 @@ function App() {
         <Route path="/" element={<HomePage />}/>
         <Route path="/signuplogin" element={<SignupLogin />}/>
         <Route path="/logout" element={<Logout />}/>
-        <Route path="/profile" element={<Profile />}/>
+        {/* <Route path="/profile" element={<Profile />}/> */}
         {/* 使用element属性替代component，传入组件实例 */}
         {/* 其他路由配置 */}
       </Routes>

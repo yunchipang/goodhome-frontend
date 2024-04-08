@@ -27,7 +27,7 @@ const SignupLogin = () => {
                     if (response.ok) {
                         alert('Login successful');
                         localStorage.setItem('username', username);
-                        window.location.href = '/homepage'; // Redirect to the homepage
+                        window.location.href = '/'; // Redirect to the homepage
                     } else {
                         alert('Login failed');
                     }
