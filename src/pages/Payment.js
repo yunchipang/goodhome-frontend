@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./Payment.css"; // 引入支付页面的 CSS 文件
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Payment = () => {
   const { amount } = useParams();
   const [paymentMessage, setPaymentMessage] = useState(""); // 弹窗消息的状态
+  const navigate = useNavigate(); // Hook to navigate
 
   //for style
   useEffect(() => {
     // When component mounts
     document.body.classList.add("payment-body");
-
     // When component unmounts
     return () => {
       document.body.classList.remove("payment-body");
@@ -40,6 +40,9 @@ const Payment = () => {
       if (!response.ok) {
         // throw new Error("Payment failed. Please try again.");
         throw new Error("Payment successful!");
+        // setTimeout(() => {
+        //   navigate(-1); // This will take the user back to the previous page
+        // }, 2000);
       }
       const data = await response.json();
       // 显示支付成功消息
@@ -50,9 +53,14 @@ const Payment = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1); // Go back to the previous page
+    // Or navigate('/'); to always go back to the BuyerPortal home page regardless of the previous page
+  };
+
   return (
     <div className="payment-container">
-      <h1>Payment Page</h1>
+      <button onClick={handleBack}>Back</button> <h1>Payment Page</h1>
       <p>Amount to pay: ${amount}</p>
       <form className="payment-form" onSubmit={handlePayment}>
         <input type="text" name="cardNumber" placeholder="Card Number" />

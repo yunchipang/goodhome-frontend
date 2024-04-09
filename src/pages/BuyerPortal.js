@@ -21,6 +21,11 @@ const BuyerPortal = () => {
   };
   */
 
+  const handleBack = () => {
+    navigate(-1); // Go back to the previous page
+    // Or navigate('/'); to always go back to the BuyerPortal home page regardless of the previous page
+  };
+
   const handleCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       // Here, implement the logic to convert the lat/lng to a zipcode and update the location state
@@ -35,6 +40,10 @@ const BuyerPortal = () => {
 
   return (
     <div className="buyer-portal">
+      <button className="back-button" onClick={handleBack}>
+        Back
+      </button>
+      <h1>Payment Page</h1>
       <h1>Buyer Portal</h1>
       <form onSubmit={handleSearch} className="search-form">
         {" "}
