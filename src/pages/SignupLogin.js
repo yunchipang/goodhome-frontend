@@ -3,17 +3,27 @@ import "./SignupLogin.css";
 
 const SignupLogin = () => {
 
-  const [isSignIn, setIsSignIn] = useState(true);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+    const [isSignIn, setIsSignIn] = useState(true);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [repeatPassword, setRepeatPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
 
-
+    useEffect(() => {
+        // Add the homepage-body class to the body tag
+        document.body.classList.add("homepage-body");
+        document.body.classList.add("sign-body");
+        // Cleanup function to remove the class when the component unmounts
+        return () => {
+        document.body.classList.remove("homepage-body");
+        document.body.classList.remove("sign-body");
+        };
+    }, []);
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isSignIn) {
@@ -63,8 +73,8 @@ const SignupLogin = () => {
                         alert('Registration successful');
                         window.location.href = '/signuplogin'; // Redirect to the homepage
                     } else if (response.status === 400) {
-                            response.json().then(data => {
-                                alert('Registration failed: ' + data.error);
+                        response.json().then(data => {
+                            alert('Registration failed: ' + data.error);
                         });
                     }
                 })
@@ -74,66 +84,6 @@ const SignupLogin = () => {
                 });
         }
     };
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isSignIn) {
-      // Handle sign in
-      fetch("http://localhost:8000/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: username, password: password }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            alert("Login successful");
-            localStorage.setItem("username", username);
-            window.location.href = "/"; // Redirect to the homepage
-          } else {
-            alert("Login failed");
-          }
-        })
-        .catch((error) => console.error("Error:", error));
-    } else {
-      // Handle sign up
-      if (password !== repeatPassword) {
-        alert("Passwords do not match");
-        return;
-      }
-      fetch("http://localhost:8000/signup/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          phone: phone,
-          address: address,
-        }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            alert("Registration successful");
-            window.location.href = "/signuplogin"; // Redirect to the homepage
-          } else if (response.status === 400) {
-            response.json().then((data) => {
-              alert("Registration failed: " + data.error);
-            });
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("An error occurred. Please try again later.");
-        });
-    }
-  };
 
   return (
     <div className="login-wrap">
