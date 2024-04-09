@@ -1,0 +1,39 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.chat-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-pic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chat-info {
+  flex: 1;
+}
+
+.user-name {
+  margin: 0;
+  font-weight: bold;
+}
+
+.last-message {
+  margin: 5px 0 0;
+  font-size: 0.9rem;
+  color: #555;
+}

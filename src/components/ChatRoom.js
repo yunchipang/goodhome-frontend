@@ -12,8 +12,6 @@ const ChatRoom = ({ roomId }) => {
   const [searchParams] = useSearchParams();
   const theOtherUserId = searchParams.get("theOtherUserId");
 
-  console.log("theOtherUserId", theOtherUserId);
-
   useEffect(() => {
     // fetch chat history once when the component mounts
     const fetchChatHistory = async () => {

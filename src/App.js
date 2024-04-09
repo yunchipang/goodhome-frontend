@@ -13,8 +13,12 @@ import { ToastContainer } from "react-toastify"; // 导入ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // 导入样式文件
 import Logout from "./pages/HomePage";
 import Payment from "./pages/Payment";
+<<<<<<< HEAD
 import PropertyDetails from "./pages/PropertyDetails";
 import ChatRoom from "./components/ChatRoom";
+=======
+import ChatPage from "./pages/ChatPage";
+>>>>>>> 300760d (add ChatPage)
 import ChatRoomWrapper from "./components/ChatRoomWrapper";
 
 function App() {
@@ -56,9 +60,7 @@ function App() {
         <Route path="/payment/:amount" element={<Payment />} />
         <Route path="/sellerrating/:sellerId" element={<SellerRating />} />
         <Route path="/property/:propertyId" element={<PropertyDetails />} />
-        {/* 使用element属性替代component，传入组件实例 */}
-        {/* 其他路由配置 */}
-        <Route path="/chat" element={<ChatRoom />} />
+        <Route path="/chat" element={<ChatPage />} />
         <Route path="/chat/:roomId" element={<ChatRoomWrapper />} />
       </Routes>
       <ToastContainer /> {/* 在应用的顶层添加ToastContainer */}
