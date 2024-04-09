@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import "./ChatRoom.css";
 
 const ChatRoom = ({ roomId }) => {
@@ -9,8 +9,10 @@ const ChatRoom = ({ roomId }) => {
 
   // const currentUserId = localStorage.getItem("user_id")
   const currentUserId = 29; // to delete
-  const location = useLocation();
-  const { theOtherUserId } = location.state || {};
+  const [searchParams] = useSearchParams();
+  const theOtherUserId = searchParams.get("theOtherUserId");
+
+  console.log("theOtherUserId", theOtherUserId);
 
   useEffect(() => {
     // fetch chat history once when the component mounts
@@ -34,7 +36,7 @@ const ChatRoom = ({ roomId }) => {
     };
 
     fetchChatHistory();
-  }, [theOtherUserId]); // depend on user IDs to refetch if they change
+  }, [currentUserId, theOtherUserId]);
 
   useEffect(() => {
     chatSocket.current = new WebSocket(

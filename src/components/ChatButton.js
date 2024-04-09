@@ -5,12 +5,12 @@ const ChatButton = ({ theOtherUserId }) => {
 
   const navigateToChatRoom = () => {
     const roomId = crypto.randomUUID();
-    navigate(`/chat/${roomId}`, { state: { theOtherUserId } });
+    navigate(`/chat/${roomId}?theOtherUserId=${theOtherUserId}`);
   };
 
   return (
     <button className="chat-button" onClick={navigateToChatRoom}>
-      Chat with Seller
+      Chat
     </button>
   );
 };

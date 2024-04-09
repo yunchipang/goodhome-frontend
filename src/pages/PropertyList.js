@@ -77,9 +77,6 @@ const PropertyList = () => {
       });
   };
 
-  // todo: replace it with the actual selle of the property
-  const theOtherUserId = 28;
-
   return (
     <div className="property-list-container">
       <button onClick={handleBack}>Back</button>{" "}
@@ -100,7 +97,7 @@ const PropertyList = () => {
             <p>Square Feet: {property.squarefeet}</p>
             <p>Room Type: {property.room_type}</p>
             <p>Zip Code: {property.zipcode}</p>
-            <ChatButton theOtherUserId={theOtherUserId} />
+            <ChatButton theOtherUserId={property.seller_id} />
           </div>
         ))}
       </div>
