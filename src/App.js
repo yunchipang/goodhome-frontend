@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify"; // 导入ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // 导入样式文件
 import Logout from "./pages/HomePage";
 import Payment from "./pages/Payment";
+import PropertyDetails from './pages/PropertyDetails';
 
 function App() {
   // eslint-disable-next-line no-unused-vars
@@ -43,15 +44,18 @@ function App() {
         {" "}
         {/* 使用Routes替代Switch */}
         <Route path="/seller-portal" element={<SellerPortal />} />
+      
         <Route path="/buyer-portal" element={<BuyerPortal />} />
         <Route path="/properties" element={<PropertyList />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/signuplogin" element={<SignupLogin />} />
         <Route path="/logout" element={<Logout />} />
         {/* <Route path="/profile" element={<Profile />}/> */}
+      
         <Route path="/buyhistory" element={<BuyHistory />} />
         <Route path="/payment/:amount" element={<Payment />} />
         <Route path="/sellerrating/:sellerId" element={<SellerRating />} />
+        <Route path="/property/:propertyId" element={<PropertyDetails />} />
         {/* 使用element属性替代component，传入组件实例 */}
         {/* 其他路由配置 */}
       </Routes>

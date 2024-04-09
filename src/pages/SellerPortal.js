@@ -153,6 +153,7 @@ const handlePropertySubmit = async (e) => {
   };
 
   const handleViewDetails = (propertyId) => {
+    navigate(`/property/${propertyId}`);
     console.log('View details of property with id:', propertyId);
   };
 
@@ -179,17 +180,17 @@ const handlePropertySubmit = async (e) => {
       <h1 className="portal-title">Seller Portal</h1>
       <div className="content-container">
         <form className="property-form" onSubmit={handlePropertySubmit}>
-          <input type="text" name="title" placeholder="Title" value={newProperty.title} onChange={handleInputChange} autocomplete="off" />
+          <input type="text" name="title" placeholder="Title" value={newProperty.title} onChange={handleInputChange} autoComplete="off" />
           <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-          <textarea name="property_descr" placeholder="Description" value={newProperty.property_descr} onChange={handleInputChange} autocomplete="off" />
-          <input type="text" name="category" placeholder="Category" value={newProperty.category} onChange={handleInputChange} autocomplete="off" />
-          <input type="text" name="start_bid_amount" placeholder="Start Bid Amount" value={newProperty.start_bid_amount} onChange={handleInputChange} autocomplete="off" />
-          <input type="number" name="seller_id" placeholder="Seller ID" value={newProperty.seller_id} onChange={handleInputChange} autocomplete="off" />
-          <input type="datetime-local" name="created_at" placeholder="Created At" value={newProperty.created_at} onChange={handleInputChange} autocomplete="off" />
-          <input type="text" name="address" placeholder="Address" value={newProperty.address} onChange={handleInputChange} autocomplete="off" />
-          <input type="number" name="zipcode" placeholder="Zipcode" value={newProperty.zipcode} onChange={handleInputChange} autocomplete="off" />
-          <input type="number" name="squarefeet" placeholder="Square Feet" value={newProperty.squarefeet} onChange={handleInputChange} autocomplete="off" />
-          <input type="text" name="room_type" placeholder="Room Type" value={newProperty.room_type} onChange={handleInputChange} autocomplete="off" />
+          <textarea name="property_descr" placeholder="Description" value={newProperty.property_descr} onChange={handleInputChange} autoComplete="off" />
+          <input type="text" name="category" placeholder="Category" value={newProperty.category} onChange={handleInputChange} autoComplete="off" />
+          <input type="text" name="start_bid_amount" placeholder="Start Bid Amount" value={newProperty.start_bid_amount} onChange={handleInputChange} autoComplete="off" />
+          <input type="number" name="seller_id" placeholder="Seller ID" value={newProperty.seller_id} onChange={handleInputChange} autoComplete="off" />
+          <input type="datetime-local" name="created_at" placeholder="Created At" value={newProperty.created_at} onChange={handleInputChange} autoComplete="off" />
+          <input type="text" name="address" placeholder="Address" value={newProperty.address} onChange={handleInputChange} autoComplete="off" />
+          <input type="number" name="zipcode" placeholder="Zipcode" value={newProperty.zipcode} onChange={handleInputChange} autoComplete="off" />
+          <input type="number" name="squarefeet" placeholder="Square Feet" value={newProperty.squarefeet} onChange={handleInputChange} autoComplete="off" />
+          <input type="text" name="room_type" placeholder="Room Type" value={newProperty.room_type} onChange={handleInputChange} autoComplete="off" />
           <label>
             Is Active:
             <input type="checkbox" name="is_active" checked={newProperty.is_active} onChange={(e) => setNewProperty({ ...newProperty, is_active: e.target.checked })} />
@@ -200,7 +201,7 @@ const handlePropertySubmit = async (e) => {
           <h2 className="property-list-title">Uploaded Properties</h2>
           <ul className="property-list">
             {properties.map((property) => (
-              <li key={property.id} className="property-item">
+              <li key={property.property_id} className="property-item">
                 <p className="property-name">{property.title}</p>
                 <p className="property-description">{property.property_descr}</p>
                 <img src={`http://127.0.0.1:8000/media/${property.image_url}`} alt={property.title} className="property-image" />
