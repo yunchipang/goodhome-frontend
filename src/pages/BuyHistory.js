@@ -16,6 +16,17 @@ const BuyHistory = () => {
       .catch((error) => console.error("Error fetching buy history:", error));
   }, []);
 
+  //for style
+  useEffect(() => {
+    // When component mounts
+    document.body.classList.add("payment-body");
+
+    // When component unmounts
+    return () => {
+      document.body.classList.remove("payment-body");
+    };
+  }, []);
+
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
     // Or navigate('/'); to always go back to the BuyerPortal home page regardless of the previous page

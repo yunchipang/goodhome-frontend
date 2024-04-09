@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Payment.css"; // 引入支付页面的 CSS 文件
 import { useParams } from "react-router-dom";
 
 const Payment = () => {
   const { amount } = useParams();
   const [paymentMessage, setPaymentMessage] = useState(""); // 弹窗消息的状态
+
+  //for style
+  useEffect(() => {
+    // When component mounts
+    document.body.classList.add("payment-body");
+
+    // When component unmounts
+    return () => {
+      document.body.classList.remove("payment-body");
+    };
+  }, []);
 
   const handlePayment = async (e) => {
     e.preventDefault();

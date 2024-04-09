@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@1,500;1,600&family=Montserrat:wght@600;700&display=swap");
 
 /* Custom CSS  */
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,6 +11,16 @@
   list-style: none;
   text-decoration: none;
   font-family: "Montserrat", sans-serif;
+} */
+.homepage-body {
+  font-family: "Montserrat", sans-serif; /* Maintains font family */
+  margin: 0;
+  padding: 0;
+  display: block; /* Overrides global flex display */
+  justify-content: normal;
+  align-items: normal;
+  height: auto; /* Allows natural flow instead of 100vh */
+  background-color: #f0f0f0; /* Keeps the grey background */
 }
 ::selection {
   background-color: #c50529;

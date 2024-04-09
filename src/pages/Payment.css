@@ -1,11 +1,12 @@
-body {
+.payment-body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 20px; /* Add some padding */
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: flex-start; /* Align to the top */
   align-items: center;
-  height: 100vh;
+  /* min-height: 100vh; Use min-height instead of height */
   background-color: #f0f0f0;
 }
 
