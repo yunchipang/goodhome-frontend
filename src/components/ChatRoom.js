@@ -7,12 +7,16 @@ const ChatRoom = ({ roomId, user1Id, user2Id }) => {
   const chatSocket = useRef(null);
 
   // const currentUserId = localStorage.getItem("user_id")
-  const currentUserId = 29; // todo: delete
+  const currentUserId = 29; // to delete
   user1Id = 28;
   user2Id = 29;
+  // to delete
+  useEffect(() => {
+    console.log("messages:", messages);
+  }, [messages]);
 
   useEffect(() => {
-    // Fetch chat history once when the component mounts
+    // fetch chat history once when the component mounts
     const fetchChatHistory = async () => {
       try {
         const response = await fetch(
@@ -22,14 +26,18 @@ const ChatRoom = ({ roomId, user1Id, user2Id }) => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setMessages(data);
+        const transformedData = data.map((message) => ({
+          message: message.message,
+          isSentByCurrentUser: message.sender_id === currentUserId,
+        }));
+        setMessages(transformedData);
       } catch (error) {
         console.error("Failed to fetch chat history:", error);
       }
     };
 
     fetchChatHistory();
-  }, [user1Id, user2Id]); // Depend on user IDs to refetch if they change
+  }, [roomId, user1Id, user2Id]); // depend on user IDs to refetch if they change
 
   useEffect(() => {
     chatSocket.current = new WebSocket(
@@ -42,10 +50,17 @@ const ChatRoom = ({ roomId, user1Id, user2Id }) => {
 
     chatSocket.current.onmessage = (e) => {
       const data = JSON.parse(e.data);
+      console.log("Received WebSocket message:", data);
+
+      const isSentByCurrentUser = messages.some(
+        (msg) => msg.tempId === data.tempId
+      );
+
       setMessages((prevMessages) => [
-        ...prevMessages,
+        ...prevMessages.filter((msg) => msg.tempId !== data.tempId),
         {
           ...data,
+          isSentByCurrentUser,
         },
       ]);
     };
@@ -57,22 +72,28 @@ const ChatRoom = ({ roomId, user1Id, user2Id }) => {
     return () => {
       chatSocket.current.close();
     };
-  }, [roomId, currentUserId]); // Reconnect WebSocket if roomId or currentUserId changes
+  }, [roomId, currentUserId, messages]);
 
   const sendMessage = () => {
     if (
       chatSocket.current.readyState === WebSocket.OPEN &&
       inputMessage.trim() !== ""
     ) {
-      // send message
-      chatSocket.current.send(
-        JSON.stringify({
-          sender_id: currentUserId,
-          receiver_id: currentUserId === user1Id ? user2Id : user1Id,
-          message: inputMessage,
-        })
-      );
-      // reset input field after sending
+      const tempId = new Date().getTime();
+      const messageObject = {
+        sender_id: currentUserId,
+        receiver_id: currentUserId === user1Id ? user2Id : user1Id,
+        message: inputMessage,
+        tempId,
+      };
+      chatSocket.current.send(JSON.stringify(messageObject));
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          ...messageObject,
+          isSentByCurrentUser: true,
+        },
+      ]);
       setInputMessage("");
     } else {
       console.error("WebSocket is not open. Message not sent.");
@@ -92,7 +113,7 @@ const ChatRoom = ({ roomId, user1Id, user2Id }) => {
           <div
             key={index}
             className={`message ${
-              msg.sender_id === currentUserId ? "sent" : "receive"
+              msg.isSentByCurrentUser ? "sent" : "receive"
             }`}
           >
             {msg.message}
