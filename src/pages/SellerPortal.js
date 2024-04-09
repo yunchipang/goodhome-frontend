@@ -158,6 +158,7 @@ const handlePropertySubmit = async (e) => {
   };
 
   const handleAcceptOffer = (propertyId) => {
+    navigate(`/auction-result/${propertyId}`);
     console.log('Accept offer for property with id:', propertyId);
   };
 

@@ -44,14 +44,12 @@ function App() {
         {" "}
         {/* 使用Routes替代Switch */}
         <Route path="/seller-portal" element={<SellerPortal />} />
-      
         <Route path="/buyer-portal" element={<BuyerPortal />} />
         <Route path="/properties" element={<PropertyList />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/signuplogin" element={<SignupLogin />} />
         <Route path="/logout" element={<Logout />} />
         {/* <Route path="/profile" element={<Profile />}/> */}
-      
         <Route path="/buyhistory" element={<BuyHistory />} />
         <Route path="/payment/:amount" element={<Payment />} />
         <Route path="/sellerrating/:sellerId" element={<SellerRating />} />
