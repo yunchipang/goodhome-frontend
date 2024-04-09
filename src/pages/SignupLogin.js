@@ -23,13 +23,15 @@ const SignupLogin = () => {
                 },
                 body: JSON.stringify({ username: username, password: password })
             })
-                .then(response => {
-                    if (response.ok) {
+                .then(response => response.json()) // 确保解析响应体为 JSON
+                .then(data => {
+                    if (data.token && data.user_id) { // 确认响应中包含令牌和用户ID
+                        localStorage.setItem('token', data.token); // 保存访问令牌
+                        localStorage.setItem('user_id', data.user_id); // 保存用户ID
                         alert('Login successful');
-                        localStorage.setItem('username', username);
                         window.location.href = '/'; // Redirect to the homepage
                     } else {
-                        alert('Login failed');
+                        alert('Login failed: ' + (data.message || 'Invalid credentials'));
                     }
                 })
                 .catch(error => console.error('Error:', error));

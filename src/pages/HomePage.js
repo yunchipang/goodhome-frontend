@@ -43,6 +43,16 @@ const HomePage = () => {
         }
     };
 
+    // Handler for seller button click
+    const handleSellerButtonClick = () => {
+        navigate('/seller-portal'); // Adjust the path as needed
+    };
+
+    // Function to handle buyer button click
+    const handleBuyerButtonClick = () => {
+        navigate('/buyer-portal'); // Make sure this is the correct path
+    };
+
     return (
         <header>
             <nav>
@@ -81,8 +91,8 @@ const HomePage = () => {
                 </h1>
                 <p>We prioritize ensuring every transaction is a win-win for both buyers and sellers.</p>
                 <div className="button-container">
-                    <button className="seller-btn">SELLER</button>
-                    <button className="buyer-btn">BUYER</button>
+                    <button className="seller-btn" onClick={handleSellerButtonClick}>SELLER</button>
+                    <button className="buyer-btn" onClick={handleBuyerButtonClick}>BUYER</button>
                 </div>
             </div>
         </header>

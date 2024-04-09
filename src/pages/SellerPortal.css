@@ -1,11 +1,15 @@
+
+
 .seller-portal-container {
     max-width: 100%;
     /* 调整这个值以确保足够的空间，并列显示表单和列表 */
     margin: 0 auto;
     padding: 20px;
+    background-color: #ffffff;
 }
 
 .seller-portal-header {
+    background-color: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;
