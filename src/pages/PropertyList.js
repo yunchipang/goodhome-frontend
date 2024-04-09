@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./PropertyList.css"; // Ensure this path matches the location of your CSS file
 import Modal from "./Modal";
 import { toast } from "react-toastify";
+import ChatButton from "../components/ChatButton";
 
 const PropertyList = () => {
   const [properties, setProperties] = useState([]);
@@ -76,6 +77,9 @@ const PropertyList = () => {
       });
   };
 
+  // todo: replace it with the actual selle of the property
+  const theOtherUserId = 28;
+
   return (
     <div className="property-list-container">
       <button onClick={handleBack}>Back</button>{" "}
@@ -96,6 +100,7 @@ const PropertyList = () => {
             <p>Square Feet: {property.squarefeet}</p>
             <p>Room Type: {property.room_type}</p>
             <p>Zip Code: {property.zipcode}</p>
+            <ChatButton theOtherUserId={theOtherUserId} />
           </div>
         ))}
       </div>

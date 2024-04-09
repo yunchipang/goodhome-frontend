@@ -1,26 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./ChatRoom.css"; // Ensure your styles are correctly defined in this CSS file.
+import { useLocation } from "react-router-dom";
+import "./ChatRoom.css";
 
-const ChatRoom = ({ roomId, user1Id, user2Id }) => {
+const ChatRoom = ({ roomId }) => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const chatSocket = useRef(null);
 
   // const currentUserId = localStorage.getItem("user_id")
   const currentUserId = 29; // to delete
-  user1Id = 28;
-  user2Id = 29;
-  // to delete
-  useEffect(() => {
-    console.log("messages:", messages);
-  }, [messages]);
+  const location = useLocation();
+  const { theOtherUserId } = location.state || {};
 
   useEffect(() => {
     // fetch chat history once when the component mounts
     const fetchChatHistory = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/chat/history/?user1_id=${user1Id}&user2_id=${user2Id}`
+          `http://localhost:8000/api/chat/history/?user1_id=${currentUserId}&user2_id=${theOtherUserId}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -37,7 +34,7 @@ const ChatRoom = ({ roomId, user1Id, user2Id }) => {
     };
 
     fetchChatHistory();
-  }, [roomId, user1Id, user2Id]); // depend on user IDs to refetch if they change
+  }, [theOtherUserId]); // depend on user IDs to refetch if they change
 
   useEffect(() => {
     chatSocket.current = new WebSocket(
@@ -82,7 +79,8 @@ const ChatRoom = ({ roomId, user1Id, user2Id }) => {
       const tempId = new Date().getTime();
       const messageObject = {
         sender_id: currentUserId,
-        receiver_id: currentUserId === user1Id ? user2Id : user1Id,
+        receiver_id:
+          currentUserId === theOtherUserId ? currentUserId : theOtherUserId,
         message: inputMessage,
         tempId,
       };
