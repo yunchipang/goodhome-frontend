@@ -37,9 +37,11 @@ const SignupLogin = () => {
             })
                 .then(response => response.json()) // 确保解析响应体为 JSON
                 .then(data => {
+                    console.log(data); 
                     if (data.token && data.user_id) { // 确认响应中包含令牌和用户ID
                         localStorage.setItem('token', data.token); // 保存访问令牌
                         localStorage.setItem('user_id', data.user_id); // 保存用户ID
+                        localStorage.setItem("username", data.username);
                         alert('Login successful');
                         window.location.href = '/'; // Redirect to the homepage
                     } else {
