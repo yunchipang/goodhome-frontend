@@ -5,7 +5,6 @@ import logoImage from '../img/goodhomelogo.jpg';
 import userAvatar from '../img/user-avatar.jpg';
 
 function SellerPortal() {
-  // const [csrfToken, setCsrfToken] = useState('');
   const [properties, setProperties] = useState([]);
   const [newProperty, setNewProperty] = useState({
     category: '',
@@ -174,7 +173,6 @@ function SellerPortal() {
   const handleGoBack = () => {
     navigate('/'); // 使用 navigate 函数将用户导航回 homepage
   };
-
   const [showAuctionModal, setShowAuctionModal] = useState(false);
   const [auctionDetails, setAuctionDetails] = useState({
     propertyId: null,
