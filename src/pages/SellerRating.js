@@ -68,7 +68,7 @@ function SellerRating() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.json();
+        // const data = await response.json();
         showSuccessModal(); // Show the success modal
       } catch (error) {
         console.error("Error rating seller:", error);
