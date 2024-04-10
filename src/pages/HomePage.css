@@ -1,6 +1,10 @@
 /* Google Font  */
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@1,500;1,600&family=Montserrat:wght@600;700&display=swap");
 
+.homepage-body::after {
+  /* Neutralize the global background image only for the homepage */
+  background: none !important;
+}
 /* Custom CSS  */
 /* * {
   margin: 0;
