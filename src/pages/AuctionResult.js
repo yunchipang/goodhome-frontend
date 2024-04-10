@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import './AuctionResult.css';
 
 function AuctionResult() {
+  const urlParams = new URLSearchParams(window.location.search);
   const { propertyId } = useParams();  // 确保这里的参数名与你的路由定义匹配
+  const sellerID = urlParams.get('sellerId');
   const [csrfToken, setCsrfToken] = useState('');
   const [result, setResult] = useState(null);
   const [rating, setRating] = useState(null);
@@ -34,11 +36,16 @@ const handleRating = () => {
   console.log('Rating operation started:', result);
   if (result && result.winner_id) {
     const winnerId = result.winner_id;
+    const userId = localStorage.getItem('user_id');
+    if (!userId) {
+      console.error('No user ID found, cannot proceed with rating.');
+      return;
+    }
     // 这里不需要将winnerId放入ratingData，因为它已经通过URL传递
     const ratingData = { rating, message };  // 确保这里使用了正确的rating和message变量
-    console.log('Sending rating data:', ratingData);
+    console.log('Sending rating data with seller ID:', userId, ratingData);
 
-    fetch(`http://localhost:8000/rate_winner/${winnerId}`, {
+    fetch(`http://localhost:8000/rate_winner/${winnerId}?sellerId=${userId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
