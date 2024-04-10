@@ -80,3 +80,20 @@ body {
 .buy-history-btn:hover {
   background-color: #286090; /* A slightly darker color for the hover state */
 }
+
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: white; /* Change to white */
+  color: #333; /* Change text color */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 3px; /* Adjust border radius */
+  padding: 8px 15px; /* Adjust padding */
+  font-size: 14px; /* Adjust font size */
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #216ab7; /* 更深的背景色 */
+}
