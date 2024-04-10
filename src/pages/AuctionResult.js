@@ -13,7 +13,9 @@ function AuctionResult() {
 
   useEffect(() => {
     if (propertyId) {  // 确保propertyId已定义
-      fetch(`http://127.0.0.1:8000/get_auction_result/${propertyId}`)
+      const url = `http://127.0.0.1:8000/get_auction_result/${propertyId}`;
+      console.log(`Fetching data from: ${url}`);
+      fetch(url)
         .then(response => {
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -98,17 +100,42 @@ const handleShippingGift = () => {
     });
   };
     
+  const handleAcceptOffer = () => {
+  console.log('Accepting offer for property:', propertyId);
+
+  fetch(`http://localhost:8000/update_property_status/${propertyId}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrfToken,
+    },
+    body: JSON.stringify({ is_active: false }) 
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Property status updated:', data);
+  })
+  .catch(error => {
+    console.error('Error updating property status:', error);
+  });
+  };
+  
   return (
-    <div className="container">
+    <div className="auction-results-container">
       {result ? (
         <div>
-          <h1 className="title">Auction Result for Property ID: {propertyId}</h1>
+          <h1 className="auction-results-title">Auction Result for Property ID: {propertyId}</h1>
           <p>Winner ID: {result.winner_id}</p>
           <p>Sale Price: {result.sale_price}</p>
           <div>
-            <label className="label" htmlFor="rating">Rating:</label>
+            <label className="auction-results-label" htmlFor="rating">Rating:</label>
             <input
-              className="input"
+              className="auction-results-input"
               type="number"
               id="rating"
               value={rating}
@@ -124,8 +151,9 @@ const handleShippingGift = () => {
               onChange={e => setMessage(e.target.value)}
             />
           </div>
-            <button className="button" onClick={handleRating}>Rate Winner</button>
-            <button className="button shipping-button" onClick={handleShippingGift}>Shipping Gift</button>
+            <button className="auction-results-button" onClick={handleRating}>Rate Winner</button>
+            <button className="auction-results-shipping-button" onClick={handleShippingGift}>Shipping Gift</button>
+            <button className="auction-results-button" onClick={handleAcceptOffer}>Accept Offer</button>
           </div>
           
       ) : (
