@@ -7,7 +7,22 @@ const BuyHistory = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/buyhistory/")
+    const userId = localStorage.getItem("user_id"); // Retrieve the user_id from localStorage
+
+    if (!userId) {
+      console.error("User ID is not available");
+      return;
+    }
+
+    // fetch("http://localhost:8000/api/buyhistory/")
+    fetch(`http://localhost:8000/api/buyhistory/?user_id=${userId}`, {
+      method: "GET", // Or 'POST', if your backend expects a POST request
+      headers: {
+        "Content-Type": "application/json",
+        // Optionally, include the user ID in the headers
+        // 'Authorization': `Bearer ${userId}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) throw new Error("Network response was not ok");
         return response.json();

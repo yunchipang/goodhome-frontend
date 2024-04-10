@@ -39,11 +39,17 @@ const PropertyList = () => {
   const handleBidSubmit = (e) => {
     e.preventDefault();
 
-    // Assuming this data structure matches what your Django view expects
+    //抓local storage
+    const userId = localStorage.getItem("user_id"); // Get user_id from localStorage
+    if (!userId) {
+      toast.error("User ID is not found. Please log in.");
+      return; // Early return if user_id is not available
+    }
+
     const bidData = {
-      bidder: 1, // Example bidder ID
-      auction: selectedProperty.id, // Make sure this matches an existing auction ID
-      amount: bidAmount,
+      bidder: parseInt(userId), // Use parsed userId from localStorage
+      auction: selectedProperty.id,
+      amount: parseFloat(bidAmount),
     };
 
     fetch("http://localhost:8000/api/bid/upload/", {
