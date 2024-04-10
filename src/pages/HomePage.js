@@ -32,6 +32,7 @@ const HomePage = () => {
     setShowDropdown(!showDropdown);
   };
 
+
   const handleLogout = async () => {
     try {
       const response = await fetch("http://localhost:8000/logout", {
@@ -52,6 +53,17 @@ const HomePage = () => {
       console.error("Error:", error);
     }
   };
+
+    // Handler for seller button click
+  const handleSellerButtonClick = () => {
+      navigate('/seller-portal'); // Adjust the path as needed
+  };
+
+  // Function to handle buyer button click
+  const handleBuyerButtonClick = () => {
+      navigate('/buyer-portal'); // Make sure this is the correct path
+  };
+
 
   return (
     <header>
@@ -111,12 +123,12 @@ const HomePage = () => {
           and sellers.
         </p>
         <div className="button-container">
-          <button className="seller-btn">SELLER</button>
-          <button className="buyer-btn">BUYER</button>
+          <button className="seller-btn" onClick={handleSellerButtonClick}>SELLER</button>
+          <button className="buyer-btn" onClick={handleBuyerButtonClick}>BUYER</button>
         </div>
       </div>
     </header>
-  );
+  );  
 };
 
 export default HomePage;
