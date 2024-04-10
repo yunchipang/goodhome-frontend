@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-const ChatButton = ({ theOtherUserId }) => {
+const ChatButton = ({ currentUserId, otherUserId }) => {
   const navigate = useNavigate();
-
   const navigateToChatRoom = () => {
-    const roomId = crypto.randomUUID();
-    navigate(`/chat/${roomId}?theOtherUserId=${theOtherUserId}`);
+    const sortedIds = [currentUserId, otherUserId]
+      .sort((a, b) => a - b)
+      .join("-");
+    const roomId = sortedIds;
+    navigate(`/chat/${roomId}`);
   };
 
   return (

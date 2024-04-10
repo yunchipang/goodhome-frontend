@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
 import "./ChatRoom.css";
 
 const ChatRoom = ({ roomId }) => {
@@ -7,17 +6,16 @@ const ChatRoom = ({ roomId }) => {
   const [inputMessage, setInputMessage] = useState("");
   const chatSocket = useRef(null);
 
-  // const currentUserId = localStorage.getItem("user_id")
-  const currentUserId = 29; // to delete
-  const [searchParams] = useSearchParams();
-  const theOtherUserId = searchParams.get("theOtherUserId");
+  let currentUserId = localStorage.getItem("user_id");
+  const ids = roomId.split("-");
+  const otherUserId = ids.find((id) => id !== currentUserId);
 
   useEffect(() => {
     // fetch chat history once when the component mounts
     const fetchChatHistory = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/chat/history/?user1_id=${currentUserId}&user2_id=${theOtherUserId}`
+          `http://localhost:8000/api/chat/history/?user1_id=${currentUserId}&user2_id=${otherUserId}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -25,7 +23,7 @@ const ChatRoom = ({ roomId }) => {
         const data = await response.json();
         const transformedData = data.map((message) => ({
           message: message.message,
-          isSentByCurrentUser: message.sender_id === currentUserId,
+          isSentByCurrentUser: String(message.sender_id) === currentUserId,
         }));
         setMessages(transformedData);
       } catch (error) {
@@ -34,7 +32,7 @@ const ChatRoom = ({ roomId }) => {
     };
 
     fetchChatHistory();
-  }, [currentUserId, theOtherUserId]);
+  }, [currentUserId, otherUserId, roomId]);
 
   useEffect(() => {
     chatSocket.current = new WebSocket(
@@ -47,17 +45,12 @@ const ChatRoom = ({ roomId }) => {
 
     chatSocket.current.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      console.log("Received WebSocket message:", data);
-
-      const isSentByCurrentUser = messages.some(
-        (msg) => msg.tempId === data.tempId
-      );
-
+      console.log("data", data);
       setMessages((prevMessages) => [
-        ...prevMessages.filter((msg) => msg.tempId !== data.tempId),
+        ...prevMessages,
         {
-          ...data,
-          isSentByCurrentUser,
+          message: data.message,
+          isSentByCurrentUser: data.sender_id === currentUserId,
         },
       ]);
     };
@@ -69,29 +62,19 @@ const ChatRoom = ({ roomId }) => {
     return () => {
       chatSocket.current.close();
     };
-  }, [roomId, currentUserId, messages]);
+  }, [roomId, messages, currentUserId]);
 
   const sendMessage = () => {
     if (
       chatSocket.current.readyState === WebSocket.OPEN &&
       inputMessage.trim() !== ""
     ) {
-      const tempId = new Date().getTime();
       const messageObject = {
         sender_id: currentUserId,
-        receiver_id:
-          currentUserId === theOtherUserId ? currentUserId : theOtherUserId,
+        receiver_id: otherUserId,
         message: inputMessage,
-        tempId,
       };
       chatSocket.current.send(JSON.stringify(messageObject));
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          ...messageObject,
-          isSentByCurrentUser: true,
-        },
-      ]);
       setInputMessage("");
     } else {
       console.error("WebSocket is not open. Message not sent.");

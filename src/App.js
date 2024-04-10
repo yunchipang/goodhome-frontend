@@ -13,12 +13,8 @@ import { ToastContainer } from "react-toastify"; // 导入ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // 导入样式文件
 import Logout from "./pages/HomePage";
 import Payment from "./pages/Payment";
-<<<<<<< HEAD
 import PropertyDetails from "./pages/PropertyDetails";
-import ChatRoom from "./components/ChatRoom";
-=======
 import ChatPage from "./pages/ChatPage";
->>>>>>> 300760d (add ChatPage)
 import ChatRoomWrapper from "./components/ChatRoomWrapper";
 
 function App() {

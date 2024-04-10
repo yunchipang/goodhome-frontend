@@ -15,6 +15,8 @@ const PropertyList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bidAmount, setBidAmount] = useState(""); // 添加了对 bidAmount 的定义和初始化
 
+  const currentUserId = localStorage.getItem("user_id");
+
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
     // Or navigate('/'); to always go back to the BuyerPortal home page regardless of the previous page
@@ -97,7 +99,10 @@ const PropertyList = () => {
             <p>Square Feet: {property.squarefeet}</p>
             <p>Room Type: {property.room_type}</p>
             <p>Zip Code: {property.zipcode}</p>
-            <ChatButton theOtherUserId={property.seller_id} />
+            <ChatButton
+              currentUserId={currentUserId}
+              otherUserId={property.seller_id}
+            />
           </div>
         ))}
       </div>

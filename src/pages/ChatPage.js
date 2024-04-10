@@ -8,6 +8,8 @@ function ChatPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const currentUserId = localStorage.getItem("user_id");
+
   const fetchChatUsers = async (currentUserId) => {
     try {
       const response = await fetch(
@@ -23,8 +25,6 @@ function ChatPage() {
   };
 
   useEffect(() => {
-    const currentUserId = 29; // todo: replace with localStorage retrieval
-
     fetchChatUsers(currentUserId)
       .then((data) => {
         setUsers(data);
@@ -35,7 +35,7 @@ function ChatPage() {
         setError("Failed to load chat history.");
         setLoading(false);
       });
-  }, []);
+  }, [currentUserId]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -56,7 +56,7 @@ function ChatPage() {
                 <p className="user-name">{user.username}</p>
                 <p className="last-message">{user.last_message}</p>
               </div>
-              <ChatButton theOtherUserId={user.id} />
+              <ChatButton currentUserId={currentUserId} otherUserId={user.id} />
             </div>
           ))
         ) : (
