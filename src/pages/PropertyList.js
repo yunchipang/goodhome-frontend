@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./PropertyList.css"; // Ensure this path matches the location of your CSS file
 import Modal from "./Modal";
 import { toast } from "react-toastify";
+import ChatButton from "../components/ChatButton";
 
 const PropertyList = () => {
   const [properties, setProperties] = useState([]);
@@ -13,6 +14,8 @@ const PropertyList = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bidAmount, setBidAmount] = useState(""); // 添加了对 bidAmount 的定义和初始化
+
+  const currentUserId = localStorage.getItem("user_id");
 
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
@@ -96,6 +99,10 @@ const PropertyList = () => {
             <p>Square Feet: {property.squarefeet}</p>
             <p>Room Type: {property.room_type}</p>
             <p>Zip Code: {property.zipcode}</p>
+            <ChatButton
+              currentUserId={currentUserId}
+              otherUserId={property.seller_id}
+            />
           </div>
         ))}
       </div>
