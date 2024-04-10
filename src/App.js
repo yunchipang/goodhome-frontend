@@ -16,11 +16,12 @@ import Payment from "./pages/Payment";
 import PropertyDetails from "./pages/PropertyDetails";
 import ChatPage from "./pages/ChatPage";
 import ChatRoomWrapper from "./components/ChatRoomWrapper";
+import QueryExecutor from "./pages/QueryExecutor";
 
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [message, setMessage] = useState("");
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     // Update the URL to match your backend app's URL
@@ -51,7 +52,8 @@ function App() {
         <Route path="/properties" element={<PropertyList />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/signuplogin" element={<SignupLogin />} />
-        <Route path="/logout" element={<HomePage />} /> {/* Add the logout route */}
+        <Route path="/logout" element={<HomePage />} />{" "}
+        {/* Add the logout route */}
         <Route path="/profile" element={<Profile username={username} />} />
         <Route path="/buyhistory" element={<BuyHistory />} />
         <Route path="/payment/:amount" element={<Payment />} />
@@ -59,6 +61,7 @@ function App() {
         <Route path="/property/:propertyId" element={<PropertyDetails />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/chat/:roomId" element={<ChatRoomWrapper />} />
+        <Route path="/query" element={<QueryExecutor />} />
       </Routes>
       <ToastContainer /> {/* 在应用的顶层添加ToastContainer */}
     </Router>
