@@ -5,6 +5,7 @@ import logoImage from '../img/goodhomelogo.jpg';
 import userAvatar from '../img/user-avatar.jpg';
 
 function SellerPortal() {
+  // const [csrfToken, setCsrfToken] = useState('');
   const [properties, setProperties] = useState([]);
   const [newProperty, setNewProperty] = useState({
     category: '',
