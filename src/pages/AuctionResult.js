@@ -12,6 +12,8 @@ function AuctionResult() {
   const [message, setMessage] = useState('');
   const [showModal, setShowModal] = useState(false);  // 控制弹窗显示
   const [trackingNumber, setTrackingNumber] = useState('');  // UPS跟踪号
+  const [showRatingSuccessModal, setShowRatingSuccessModal] = useState(false);
+  const [showAcceptOfferModal, setShowAcceptOfferModal] = useState(false);
 
   useEffect(() => {
     if (propertyId) {  // 确保propertyId已定义
@@ -60,6 +62,10 @@ const handleRating = () => {
     })
     .then(data => {
       console.log('Rating response:', data);
+      setShowRatingSuccessModal(true);  // 设置评分成功的状态
+      setTimeout(() => {
+          setShowRatingSuccessModal(false);  // 2秒后自动隐藏消息
+        }, 2000);
     })
     .catch(error => {
       console.error('Error rating winner:', error);
@@ -75,48 +81,22 @@ const handleShippingGift = () => {
     setTrackingNumber(`1Z${Math.random().toString().slice(2, 12)}`);
   };
 
-  const handleCompleteShipping = () => {
-    const shippingData = {
-      seller_id: result ? result.seller_id : 0,
-      winner_id: result ? result.winner_id : 0,
-      trackingNumber
-    };
-
-    console.log('Sending shipping data:', shippingData);
-
-    fetch('http://localhost:8000/api/shipping', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken,
-      },
-      body: JSON.stringify(shippingData)
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Shipping response:', data);
-      setShowModal(false); // 关闭弹窗
-    })
-    .catch(error => {
-      console.error('Error sending shipping data:', error);
-    });
+const handleCompleteShipping = () => {
+  const shippingData = {
+    seller_id: result ? result.seller_id : 0,
+    winner_id: result ? result.winner_id : 0,
+    trackingNumber
   };
-    
-  const handleAcceptOffer = () => {
-  console.log('Accepting offer for property:', propertyId);
 
-  fetch(`http://localhost:8000/update_property_status/${propertyId}/`, {
+  console.log('Sending shipping data:', shippingData);
+
+  fetch('http://localhost:8000/api/shipping', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': csrfToken,
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
     },
-    body: JSON.stringify({ is_active: false }) 
+    body: JSON.stringify(shippingData)
   })
   .then(response => {
     if (!response.ok) {
@@ -125,12 +105,40 @@ const handleShippingGift = () => {
     return response.json();
   })
   .then(data => {
-    console.log('Property status updated:', data);
+    console.log('Shipping response:', data);
+    setShowModal(false); // 关闭弹窗
   })
   .catch(error => {
-    console.error('Error updating property status:', error);
+    console.error('Error sending shipping data:', error);
   });
-  };
+};
+  
+const handleAcceptOffer = () => {
+console.log('Accepting offer for property:', propertyId);
+
+fetch(`http://localhost:8000/update_property_status/${propertyId}/`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-CSRFToken': csrfToken,
+  },
+  body: JSON.stringify({ is_active: false }) 
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
+})
+.then(data => {
+  console.log('Property status updated:', data);
+  setShowAcceptOfferModal(true);
+  setTimeout(() => setShowAcceptOfferModal(false), 2000);
+})
+.catch(error => {
+  console.error('Error updating property status:', error);
+});
+};
   
   return (
     <div className="auction-results-container">
@@ -159,21 +167,39 @@ const handleShippingGift = () => {
             />
           </div>
             <button className="auction-results-button" onClick={handleRating}>Rate Winner</button>
-            <button className="auction-results-shipping-button" onClick={handleShippingGift}>Shipping Gift</button>
-            <button className="auction-results-button" onClick={handleAcceptOffer}>Accept Offer</button>
-          </div>
+            {showRatingSuccessModal && (
+              <div className="modal">
+                <div className="modal-content">
+                  <p>Rate Successful!</p>
+                  <button onClick={() => setShowRatingSuccessModal(false)}>Close</button>
+                </div>
+              </div>
+            )}
+          <button className="auction-results-button" onClick={handleShippingGift}>Shipping Gift</button>
+          {showModal && (
+            <div className="modal">
+              <div className="modal-content">
+                <p>UPS Tracking Number: {trackingNumber}</p>
+                <button onClick={handleCompleteShipping}>Complete Shipping</button>
+              </div>
+            </div>
+          )}
+          <button className="auction-results-button" onClick={handleAcceptOffer}>Accept Offer</button>
+            {showAcceptOfferModal && (
+              <div className="modal">
+                <div className="modal-content">
+                  <p>You already accept a buyer!</p>
+                  <button onClick={() => setShowAcceptOfferModal(false)}>Close</button>
+                </div>
+              </div>
+          )}
+        </div>
           
       ) : (
         <p>Loading auction result...</p>
       )}
-      
-      {showModal && (
-        <div className="modal">
-          <p>UPS Tracking Number: {trackingNumber}</p>
-          <button onClick={handleCompleteShipping}>Complete Shipping</button>
-        </div>
-      )}
     </div>
+    
   );
 }
 

@@ -6,7 +6,6 @@ import userAvatar from '../img/user-avatar.jpg';
 
 function SellerPortal() {
   // const [csrfToken, setCsrfToken] = useState('');
-
   const [properties, setProperties] = useState([]);
   const [newProperty, setNewProperty] = useState({
     category: '',
@@ -273,8 +272,23 @@ function SellerPortal() {
             ))}
           </ul>
         </div>
-      </div>
-      {showAuctionModal && (
+    </div>
+    {showAuctionModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Start Auction </h2>
+            <label htmlFor="startTime">Start Time:</label>
+            <input type="datetime-local" id="startTime" name="startTime" value={auctionDetails.startTime} onChange={handleAuctionChange} />
+            <label htmlFor="endTime">End Time:</label>
+            <input type="datetime-local" id="endTime" name="endTime" value={auctionDetails.endTime} onChange={handleAuctionChange} />
+            <div className="modal-buttons">
+              <button onClick={handleAuctionSubmit}>Confirm Auction</button>
+              <button onClick={() => setShowAuctionModal(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* {showAuctionModal && (
         <div className="modal">
           <h2>Start Auction for Property ID: {auctionDetails.propertyId}</h2>
           <input
@@ -294,7 +308,7 @@ function SellerPortal() {
           <button onClick={handleAuctionSubmit}>Confirm Auction</button>
           <button onClick={() => setShowAuctionModal(false)}>Cancel</button>
         </div>
-    )}
+    )} */}
     </div>
   );
 }
