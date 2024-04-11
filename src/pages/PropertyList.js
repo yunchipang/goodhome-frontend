@@ -108,6 +108,7 @@ const PropertyList = () => {
             <ChatButton
               currentUserId={currentUserId}
               otherUserId={property.seller_id}
+              disabled={currentUserId === String(property.seller_id)}
             />
           </div>
         ))}
