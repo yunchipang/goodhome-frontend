@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const ChatButton = ({ currentUserId, otherUserId }) => {
+const ChatButton = ({ currentUserId, otherUserId, disabled }) => {
   const navigate = useNavigate();
   const navigateToChatRoom = () => {
     const sortedIds = [currentUserId, otherUserId]
@@ -11,7 +11,11 @@ const ChatButton = ({ currentUserId, otherUserId }) => {
   };
 
   return (
-    <button className="chat-button" onClick={navigateToChatRoom}>
+    <button
+      className="chat-button"
+      onClick={navigateToChatRoom}
+      disabled={disabled}
+    >
       Chat
     </button>
   );
