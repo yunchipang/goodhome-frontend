@@ -3,17 +3,23 @@ import { useParams } from 'react-router-dom';
 import './AuctionResult.css';
 
 function AuctionResult() {
+  const urlParams = new URLSearchParams(window.location.search);
   const { propertyId } = useParams();  // 确保这里的参数名与你的路由定义匹配
+  const sellerID = urlParams.get('sellerId');
   const [csrfToken, setCsrfToken] = useState('');
   const [result, setResult] = useState(null);
   const [rating, setRating] = useState(null);
   const [message, setMessage] = useState('');
   const [showModal, setShowModal] = useState(false);  // 控制弹窗显示
   const [trackingNumber, setTrackingNumber] = useState('');  // UPS跟踪号
+  const [showRatingSuccessModal, setShowRatingSuccessModal] = useState(false);
+  const [showAcceptOfferModal, setShowAcceptOfferModal] = useState(false);
 
   useEffect(() => {
     if (propertyId) {  // 确保propertyId已定义
-      fetch(`http://127.0.0.1:8000/get_auction_result/${propertyId}`)
+      const url = `http://127.0.0.1:8000/get_auction_result/${propertyId}`;
+      console.log(`Fetching data from: ${url}`);
+      fetch(url)
         .then(response => {
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -32,11 +38,16 @@ const handleRating = () => {
   console.log('Rating operation started:', result);
   if (result && result.winner_id) {
     const winnerId = result.winner_id;
+    const userId = localStorage.getItem('user_id');
+    if (!userId) {
+      console.error('No user ID found, cannot proceed with rating.');
+      return;
+    }
     // 这里不需要将winnerId放入ratingData，因为它已经通过URL传递
     const ratingData = { rating, message };  // 确保这里使用了正确的rating和message变量
-    console.log('Sending rating data:', ratingData);
+    console.log('Sending rating data with seller ID:', userId, ratingData);
 
-    fetch(`http://localhost:8000/rate_winner/${winnerId}`, {
+    fetch(`http://localhost:8000/rate_winner/${winnerId}?sellerId=${userId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -51,6 +62,10 @@ const handleRating = () => {
     })
     .then(data => {
       console.log('Rating response:', data);
+      setShowRatingSuccessModal(true);  // 设置评分成功的状态
+      setTimeout(() => {
+          setShowRatingSuccessModal(false);  // 2秒后自动隐藏消息
+        }, 2000);
     })
     .catch(error => {
       console.error('Error rating winner:', error);
@@ -66,49 +81,76 @@ const handleShippingGift = () => {
     setTrackingNumber(`1Z${Math.random().toString().slice(2, 12)}`);
   };
 
-  const handleCompleteShipping = () => {
-    const shippingData = {
-      seller_id: result ? result.seller_id : 0,
-      winner_id: result ? result.winner_id : 0,
-      trackingNumber
-    };
-
-    console.log('Sending shipping data:', shippingData);
-
-    fetch('http://localhost:8000/api/shipping', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken,
-      },
-      body: JSON.stringify(shippingData)
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Shipping response:', data);
-      setShowModal(false); // 关闭弹窗
-    })
-    .catch(error => {
-      console.error('Error sending shipping data:', error);
-    });
+const handleCompleteShipping = () => {
+  const shippingData = {
+    seller_id: result ? result.seller_id : 0,
+    winner_id: result ? result.winner_id : 0,
+    trackingNumber
   };
-    
+
+  console.log('Sending shipping data:', shippingData);
+
+  fetch('http://localhost:8000/api/shipping', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+    },
+    body: JSON.stringify(shippingData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Shipping response:', data);
+    setShowModal(false); // 关闭弹窗
+  })
+  .catch(error => {
+    console.error('Error sending shipping data:', error);
+  });
+};
+  
+const handleAcceptOffer = () => {
+console.log('Accepting offer for property:', propertyId);
+
+fetch(`http://localhost:8000/update_property_status/${propertyId}/`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-CSRFToken': csrfToken,
+  },
+  body: JSON.stringify({ is_active: false }) 
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
+})
+.then(data => {
+  console.log('Property status updated:', data);
+  setShowAcceptOfferModal(true);
+  setTimeout(() => setShowAcceptOfferModal(false), 2000);
+})
+.catch(error => {
+  console.error('Error updating property status:', error);
+});
+};
+  
   return (
-    <div className="container">
+    <div className="auction-results-container">
       {result ? (
         <div>
-          <h1 className="title">Auction Result for Property ID: {propertyId}</h1>
+          <h1 className="auction-results-title">Auction Result for Property ID: {propertyId}</h1>
           <p>Winner ID: {result.winner_id}</p>
           <p>Sale Price: {result.sale_price}</p>
           <div>
-            <label className="label" htmlFor="rating">Rating:</label>
+            <label className="auction-results-label" htmlFor="rating">Rating:</label>
             <input
-              className="input"
+              className="auction-results-input"
               type="number"
               id="rating"
               value={rating}
@@ -124,21 +166,40 @@ const handleShippingGift = () => {
               onChange={e => setMessage(e.target.value)}
             />
           </div>
-            <button className="button" onClick={handleRating}>Rate Winner</button>
-            <button className="button shipping-button" onClick={handleShippingGift}>Shipping Gift</button>
-          </div>
+            <button className="auction-results-button" onClick={handleRating}>Rate Winner</button>
+            {showRatingSuccessModal && (
+              <div className="modal">
+                <div className="modal-content">
+                  <p>Rate Successful!</p>
+                  <button onClick={() => setShowRatingSuccessModal(false)}>Close</button>
+                </div>
+              </div>
+            )}
+          <button className="auction-results-button" onClick={handleShippingGift}>Shipping Gift</button>
+          {showModal && (
+            <div className="modal">
+              <div className="modal-content">
+                <p>UPS Tracking Number: {trackingNumber}</p>
+                <button onClick={handleCompleteShipping}>Complete Shipping</button>
+              </div>
+            </div>
+          )}
+          <button className="auction-results-button" onClick={handleAcceptOffer}>Accept Offer</button>
+            {showAcceptOfferModal && (
+              <div className="modal">
+                <div className="modal-content">
+                  <p>You already accept a buyer!</p>
+                  <button onClick={() => setShowAcceptOfferModal(false)}>Close</button>
+                </div>
+              </div>
+          )}
+        </div>
           
       ) : (
         <p>Loading auction result...</p>
       )}
-      
-      {showModal && (
-        <div className="modal">
-          <p>UPS Tracking Number: {trackingNumber}</p>
-          <button onClick={handleCompleteShipping}>Complete Shipping</button>
-        </div>
-      )}
     </div>
+    
   );
 }
 

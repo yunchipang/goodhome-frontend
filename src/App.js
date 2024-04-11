@@ -13,7 +13,8 @@ import { ToastContainer } from "react-toastify"; // 导入ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // 导入样式文件
 // import Logout from "./pages/HomePage";
 import Payment from "./pages/Payment";
-import PropertyDetails from "./pages/PropertyDetails";
+import PropertyDetails from './pages/PropertyDetails';
+import AuctionResult from './pages/AuctionResult';
 import ChatPage from "./pages/ChatPage";
 import ChatRoomWrapper from "./components/ChatRoomWrapper";
 import QueryExecutor from "./pages/QueryExecutor";
@@ -59,6 +60,9 @@ function App() {
         <Route path="/payment/:amount" element={<Payment />} />
         <Route path="/sellerrating/:sellerId" element={<SellerRating />} />
         <Route path="/property/:propertyId" element={<PropertyDetails />} />
+        <Route path="/auction-result/:propertyId" element={<AuctionResult />} />
+        {/* 使用element属性替代component，传入组件实例 */}
+        {/* 其他路由配置 */}
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/chat/:roomId" element={<ChatRoomWrapper />} />
         <Route path="/query" element={<QueryExecutor />} />

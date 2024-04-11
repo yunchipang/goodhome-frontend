@@ -5,7 +5,7 @@ import logoImage from '../img/goodhomelogo.jpg';
 import userAvatar from '../img/user-avatar.jpg';
 
 function SellerPortal() {
-// const [csrfToken, setCsrfToken] = useState('');
+  // const [csrfToken, setCsrfToken] = useState('');
   const [properties, setProperties] = useState([]);
   const [newProperty, setNewProperty] = useState({
     category: '',
@@ -35,22 +35,6 @@ function SellerPortal() {
     // .catch(error => console.error('Error fetching CSRF token:', error));
     fetchSellerProperties();
   }, []);
-  // useEffect(() => {
-  //   fetch('http://127.0.0.1:8000/get-csrf/', {
-  //     credentials: 'include', // 确保发送 cookies（如果你的 Django 后端设置了 'SameSite=Lax' 或者 'SameSite=Strict'）
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => setCsrfToken(data.csrfToken))
-  //   .catch(error => console.error('Error fetching CSRF token:', error));
-
-  //   fetchSellerProperties();
-  // }, []);
-
-  // 获取当前登录用户的 ID
-  // const getCurrentUserId = () => {
-  //   // 假设用户 ID 存储在 localStorage 的 'userId' 项中
-  //   return localStorage.getItem('user_id');
-  // };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -191,6 +175,55 @@ function SellerPortal() {
     navigate('/'); // 使用 navigate 函数将用户导航回 homepage
   };
 
+  const [showAuctionModal, setShowAuctionModal] = useState(false);
+  const [auctionDetails, setAuctionDetails] = useState({
+    propertyId: null,
+    current_highest_bid: null,
+    startTime: '',
+    endTime: ''
+  });
+
+  const handleStartAuction = (propertyId) => {
+    setShowAuctionModal(true);
+    setAuctionDetails({
+      ...auctionDetails,
+      propertyId: propertyId,
+    });
+  };
+
+  const handleAuctionChange = (e) => {
+    const { name, value } = e.target;
+    setAuctionDetails({
+      ...auctionDetails,
+      [name]: value
+    });
+  };
+
+  const handleAuctionSubmit = async () => {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/get_auctions_time/${auctionDetails.propertyId}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // 添加验证头部如果需要
+      },
+      body: JSON.stringify({ startTime: auctionDetails.startTime,
+        endTime: auctionDetails.endTime })
+    });
+
+    if (response.ok) {
+      console.log('Auction started successfully');
+      // 这里可以添加成功后的逻辑
+    } else {
+      console.error('Failed to start auction');
+    }
+  } catch (error) {
+    console.error('Error starting auction:', error);
+  }
+  setShowAuctionModal(false);
+};
+
+
   return (
     <div className="seller-portal-container">
       <div className="seller-portal-header">
@@ -233,12 +266,49 @@ function SellerPortal() {
                 <div className="button-container">
                   <button className="action-button" onClick={() => handleViewDetails(property.id)}>View Details</button>
                   <button className="action-button" onClick={() => handleAcceptOffer(property.id)}>Accept Offer</button>
+                  <button className="action-button" onClick={() => handleStartAuction(property.id)}>Start Auction</button>
                 </div>
               </li>
             ))}
           </ul>
         </div>
-      </div>
+    </div>
+    {showAuctionModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Start Auction </h2>
+            <label htmlFor="startTime">Start Time:</label>
+            <input type="datetime-local" id="startTime" name="startTime" value={auctionDetails.startTime} onChange={handleAuctionChange} />
+            <label htmlFor="endTime">End Time:</label>
+            <input type="datetime-local" id="endTime" name="endTime" value={auctionDetails.endTime} onChange={handleAuctionChange} />
+            <div className="modal-buttons">
+              <button onClick={handleAuctionSubmit}>Confirm Auction</button>
+              <button onClick={() => setShowAuctionModal(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* {showAuctionModal && (
+        <div className="modal">
+          <h2>Start Auction for Property ID: {auctionDetails.propertyId}</h2>
+          <input
+            type="datetime-local"
+            name="startTime"
+            value={auctionDetails.startTime}
+            onChange={handleAuctionChange}
+            placeholder="Start Time"
+          />
+          <input
+            type="datetime-local"
+            name="endTime"
+            value={auctionDetails.endTime}
+            onChange={handleAuctionChange}
+            placeholder="End Time"
+          />
+          <button onClick={handleAuctionSubmit}>Confirm Auction</button>
+          <button onClick={() => setShowAuctionModal(false)}>Cancel</button>
+        </div>
+    )} */}
     </div>
   );
 }

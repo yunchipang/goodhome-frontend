@@ -1,5 +1,4 @@
-/* AuctionResult.css */
-.container {
+.auction-results-container {
     font-family: 'Arial, sans-serif';
     max-width: 600px;
     margin: 20px auto;
@@ -8,16 +7,16 @@
     border-radius: 8px;
 }
 
-.title {
+.auction-results-title {
     color: #333;
 }
 
-.label {
+.auction-results-label {
     display: block;
     margin: 10px 0 5px;
 }
 
-.input {
+.auction-results-input {
     width: 100%;
     padding: 8px;
     margin: 0 0 20px;
@@ -26,7 +25,18 @@
     border: 1px solid #ccc;
 }
 
-.button {
+.buttons-container {
+    display: flex;
+    justify-content: space-around;
+    /* 均匀分布按钮并在两端保持间距 */
+    padding: 10px 0;
+    /* 上下边距，根据需要调整 */
+}
+
+.auction-results-button {
+    flex: 1;
+        /* 按钮会尽量等宽分布 */
+    margin: 0 10px;
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -36,15 +46,104 @@
     transition: background-color 0.3s ease;
 }
 
-.button:hover {
+.auction-results-button:hover {
     background-color: #0056b3;
 }
 
-.shipping-button {
+.auction-results-shipping-button {
     background-color: #28a745;
-    /* 特定于Shipping Gift按钮的颜色 */
 }
 
-.shipping-button:hover {
+.auction-results-shipping-button:hover {
     background-color: #218838;
+}
+
+
+
+/* 弹窗背景遮罩层 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0);
+    /* 半透明背景 */
+    z-index: 1000;
+    /* 确保弹窗在最前面 */
+}
+
+/* 弹窗内容样式 */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    /* 圆角边框 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* 轻微的阴影效果 */
+    width: 400px;
+    /* 或根据实际需要调整宽度 */
+    text-align: center;
+}
+
+/* 弹窗内文本样式 */
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    /* 增加下边距 */
+}
+
+/* 弹窗内按钮样式 */
+.modal-content button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    /* 按钮圆角 */
+    background-color: #4CAF50;
+    /* 绿色背景 */
+    color: white;
+    /* 白色文字 */
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #45a049;
+    /* 鼠标悬停时的背景色 */
+}
+
+.shipping-container {
+    position: relative;
+    /* 父容器使用相对定位 */
+}
+
+.shipping-modal {
+    position: absolute;
+    /* 弹窗使用绝对定位 */
+    left: 50%;
+    transform: translateX(-50%);
+    /* 水平居中 */
+    top: 100%;
+    /* 在按钮的下方 */
+    margin-top: 10px;
+    /* 和按钮之间的间隔 */
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    /* 确保弹窗显示在最前面 */
+}
+
+.shipping-modal p {
+    margin: 0;
+}
+
+.shipping-modal button {
+    display: block;
+    /* 使按钮独占一行 */
+    margin: 10px auto 0;
+    /* 上边距为10px，水平居中 */
 }

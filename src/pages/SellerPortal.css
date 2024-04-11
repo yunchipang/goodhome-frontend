@@ -213,3 +213,55 @@
         font-size: 20px;
     }
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 10000; 
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    width: auto; 
+    max-width: 90%; 
+    z-index: 10001; 
+}
+
+/* 弹窗内文本样式 */
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    /* 增加下边距 */
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    /* 按钮在容器中居中 */
+    gap: 10px;
+    /* 按钮之间的间隙 */
+    margin-top: 20px;
+    /* 与上方内容的间距 */
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    /* 按钮内边距 */
+    border: none;
+    /* 去除边框 */
+    border-radius: 4px;
+    /* 轻微的圆角边框 */
+    cursor: pointer;
+    /* 鼠标悬停时显示指针 */
+    /* 可以添加更多的按钮样式，如背景颜色、文本颜色等 */
+}
