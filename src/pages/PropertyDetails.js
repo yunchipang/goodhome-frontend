@@ -29,13 +29,14 @@ function PropertyDetails() {
         <div>
           <h1>{propertyDetails.title}</h1>
           {/* <img src={`http://127.0.0.1:8000/media/${propertyDetails.image_url}`} alt={propertyDetails.title} /> */}
-          <img src={propertyDetails.image_url} alt={propertyDetails.title} />
-          <p>{propertyDetails.property_descr}</p>
-          <p>Category: {propertyDetails.category}</p>
-          <p>Address: {propertyDetails.address}</p>
-          <p>Square Feet: {propertyDetails.squarefeet}</p>
-          <p>Room Type: {propertyDetails.room_type}</p>
-          <p>Zipcode: {propertyDetails.zipcode}</p>
+          <img src={propertyDetails.image_url} alt={propertyDetails.title} className="property-image" />
+          <div className="property-info">
+            <p><strong>Category:</strong> <span>{propertyDetails.category}</span></p>
+            <p><strong>Address:</strong> <span>{propertyDetails.address}</span></p>
+            <p><strong>Square Feet:</strong> <span>{propertyDetails.squarefeet}</span></p>
+            <p><strong>Room Type:</strong> <span>{propertyDetails.room_type}</span></p>
+            <p><strong>Zipcode:</strong> <span>{propertyDetails.zipcode}</span></p>
+          </div>
         </div>
       ) : (
         <p>Loading...</p>
