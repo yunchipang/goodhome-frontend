@@ -18,6 +18,7 @@ import AuctionResult from './pages/AuctionResult';
 import ChatPage from "./pages/ChatPage";
 import ChatRoomWrapper from "./components/ChatRoomWrapper";
 import QueryExecutor from "./pages/QueryExecutor";
+import AdminFeature from "./pages/AdminFeature";
 
 function App() {
   // eslint-disable-next-line no-unused-vars
@@ -52,6 +53,7 @@ function App() {
         <Route path="/buyer-portal" element={<BuyerPortal />} />
         <Route path="/properties" element={<PropertyList />} />
         <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminFeature />} />
         <Route path="/signuplogin" element={<SignupLogin />} />
         <Route path="/logout" element={<HomePage />} />{" "}
         {/* Add the logout route */}

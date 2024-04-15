@@ -174,7 +174,6 @@ function SellerPortal() {
   const handleGoBack = () => {
     navigate('/'); // 使用 navigate 函数将用户导航回 homepage
   };
-
   const [showAuctionModal, setShowAuctionModal] = useState(false);
   const [auctionDetails, setAuctionDetails] = useState({
     propertyId: null,

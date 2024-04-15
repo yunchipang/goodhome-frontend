@@ -42,8 +42,14 @@ const SignupLogin = () => {
                         localStorage.setItem('token', data.token); // 保存访问令牌
                         localStorage.setItem('user_id', data.user_id); // 保存用户ID
                         localStorage.setItem("username", data.username);
+                        localStorage.setItem('is_admin', data.is_admin);
                         alert('Login successful');
-                        window.location.href = '/'; // Redirect to the homepage
+                        if (data.is_admin) {
+                          window.location.href = '/admin'; // Redirect to the admin page
+                        } else {
+                            window.location.href = '/'; // Redirect to the homepage
+                        }
+                        // window.location.href = '/'; // Redirect to the homepage
                     } else {
                         alert('Login failed: ' + (data.message || 'Invalid credentials'));
                     }
